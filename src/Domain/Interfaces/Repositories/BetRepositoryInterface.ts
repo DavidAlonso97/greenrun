@@ -6,5 +6,6 @@ export default interface BetRepositoryInterface {
   findOneById(id: number): Promise<Bet>;
   findBy(params: BetParamsInterface): Promise<Bet[]>;
   persist(bet: Bet): Promise<number>;
+  update(bet: Bet): Promise<void>;
   delete(bet: Bet): Promise<boolean>;
 }

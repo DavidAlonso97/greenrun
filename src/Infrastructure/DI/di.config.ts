@@ -46,6 +46,9 @@ import GetTransactionsHandler from '../../Application/Handlers/Transactions/GetT
 import GetUsersBalanceAction from '../../Http/Actions/Users/GetUsersBalanceAction';
 import GetUsersBalanceAdapter from '../../Http/Adapters/Users/GetUsersBalanceAdapter';
 import GetUsersBalanceHandler from '../../Application/Handlers/Users/GetUsersBalanceHandler';
+import UpdateBetsAction from '../../Http/Actions/Bets/UpdateBetsAction';
+import UpdateBetsAdapter from '../../Http/Adapters/Bets/UpdateBetsAdapter';
+import UpdateBetsHandler from '../../Application/Handlers/Bets/UpdateBetsHandler';
 
 const DIContainer = new Container();
 
@@ -61,6 +64,7 @@ DIContainer.bind<GetUsersBalanceAction>(GetUsersBalanceAction).toSelf();
 DIContainer.bind<CreateBetsAction>(CreateBetsAction).toSelf();
 DIContainer.bind<PlaceBetsAction>(PlaceBetsAction).toSelf();
 DIContainer.bind<GetBetsAction>(GetBetsAction).toSelf();
+DIContainer.bind<UpdateBetsAction>(UpdateBetsAction).toSelf();
 
 DIContainer.bind<DepositAction>(DepositAction).toSelf();
 DIContainer.bind<WithdrawAction>(WithdrawAction).toSelf();
@@ -77,6 +81,7 @@ DIContainer.bind<GetUsersBalanceAdapter>(GetUsersBalanceAdapter).toSelf();
 DIContainer.bind<CreateBetsAdapter>(CreateBetsAdapter).toSelf();
 DIContainer.bind<PlaceBetsAdapter>(PlaceBetsAdapter).toSelf();
 DIContainer.bind<GetBetsAdapter>(GetBetsAdapter).toSelf();
+DIContainer.bind<UpdateBetsAdapter>(UpdateBetsAdapter).toSelf();
 
 DIContainer.bind<DepositAdapter>(DepositAdapter).toSelf();
 DIContainer.bind<WithdrawAdapter>(WithdrawAdapter).toSelf();
@@ -94,6 +99,7 @@ DIContainer.bind<GetUsersBalanceHandler>(GetUsersBalanceHandler).toSelf();
 DIContainer.bind<PlaceBetsHandler>(PlaceBetsHandler).toSelf();
 DIContainer.bind<CreateBetsHandler>(CreateBetsHandler).toSelf();
 DIContainer.bind<GetBetsHandler>(GetBetsHandler).toSelf();
+DIContainer.bind<UpdateBetsHandler>(UpdateBetsHandler).toSelf();
 
 DIContainer.bind<DepositHandler>(DepositHandler).toSelf();
 DIContainer.bind<WithdrawHandler>(WithdrawHandler).toSelf();

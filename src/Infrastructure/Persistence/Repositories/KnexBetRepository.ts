@@ -33,6 +33,10 @@ export default class KnexBetRepository implements BetRepositoryInterface {
     return await this.repository().insert(bet);
   }
 
+  public async update(bet: Bet): Promise<void> {
+    await this.repository().where('id', bet.id).update(bet);
+  }
+
   public async delete(bet: Bet): Promise<boolean> {
     const result = await this.repository().where('id', bet.getId())
     .update({
