@@ -40,6 +40,9 @@ import DepositHandler from '../../Application/Handlers/Transactions/DepositHandl
 import WithdrawAction from '../../Http/Actions/Transactions/WithdrawAction';
 import WithdrawAdapter from '../../Http/Adapters/Transactions/WithdrawAdapter';
 import WithdrawHandler from '../../Application/Handlers/Transactions/WithdrawHandler';
+import GetTransactionsAction from '../../Http/Actions/Transactions/GetTransactionsAction';
+import GetTransactionAdapter from '../../Http/Adapters/Transactions/GetTransactionsAdapter';
+import GetTransactionsHandler from '../../Application/Handlers/Transactions/GetTransactionsHandler';
 
 const DIContainer = new Container();
 
@@ -57,6 +60,7 @@ DIContainer.bind<GetBetsAction>(GetBetsAction).toSelf();
 
 DIContainer.bind<DepositAction>(DepositAction).toSelf();
 DIContainer.bind<WithdrawAction>(WithdrawAction).toSelf();
+DIContainer.bind<GetTransactionsAction>(GetTransactionsAction).toSelf();
 
 //Adapters
 DIContainer.bind<LoginUsersAdapter>(LoginUsersAdapter).toSelf();
@@ -71,6 +75,7 @@ DIContainer.bind<GetBetsAdapter>(GetBetsAdapter).toSelf();
 
 DIContainer.bind<DepositAdapter>(DepositAdapter).toSelf();
 DIContainer.bind<WithdrawAdapter>(WithdrawAdapter).toSelf();
+DIContainer.bind<GetTransactionAdapter>(GetTransactionAdapter).toSelf();
 
 //Handlers
 DIContainer.bind<LoginUsersHandler>(LoginUsersHandler).toSelf();
@@ -86,6 +91,7 @@ DIContainer.bind<GetBetsHandler>(GetBetsHandler).toSelf();
 
 DIContainer.bind<DepositHandler>(DepositHandler).toSelf();
 DIContainer.bind<WithdrawHandler>(WithdrawHandler).toSelf();
+DIContainer.bind<GetTransactionsHandler>(GetTransactionsHandler).toSelf();
 
 //Respoitories
 DIContainer.bind<UserRepositoryInterface>(INTERFACES.UserRepositoryInterface).to(KnexUserRepository);

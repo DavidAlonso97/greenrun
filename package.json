@@ -4,8 +4,8 @@
   "description": "Backend challenge for GreenRun",
   "main": "server.js",
   "scripts": {
-    "transpile": "tsc",
     "start": "NODE_ENV=development nodemon -e ts  --exec \"yarn run dev:transpile\"",
+    "dev:transpile": "tsc && node --inspect=0.0.0.0 dist/server.js"
   },
   "dependencies": {
     "@hapi/hapi": "^20.2.2",

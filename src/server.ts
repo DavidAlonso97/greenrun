@@ -12,6 +12,8 @@ import PlaceBetsAction from './Http/Actions/Bets/PlaceBetsAction';
 import GetBetsAction from './Http/Actions/Bets/GetBetsAction';
 import DepositAction from './Http/Actions/Transactions/DepositAction';
 import WithdrawAction from './Http/Actions/Transactions/WithdrawAction';
+import GetTransactionsAction from './Http/Actions/Transactions/GetTransactionsAction';
+import GetUsersBalanceAction from './Http/Actions/Users/GetUsersBalanceAction';
 
 class Server {
   private loginUserAction: LoginUsersAction;
@@ -24,6 +26,8 @@ class Server {
   private getBetsAction: GetBetsAction;
   private depositAction: DepositAction;
   private withdrawAction: WithdrawAction;
+  private getTransactionsAction: GetTransactionsAction;
+  private getUsersBalanceAction: GetUsersBalanceAction;
 
   constructor(
   ) {
@@ -37,6 +41,8 @@ class Server {
     this.getBetsAction = DIContainer.get<GetBetsAction>(GetBetsAction);
     this.depositAction = DIContainer.get<DepositAction>(DepositAction);
     this.withdrawAction = DIContainer.get<WithdrawAction>(WithdrawAction);
+    this.getTransactionsAction = DIContainer.get<GetTransactionsAction>(GetTransactionsAction);
+    this.getUsersBalanceAction = DIContainer.get<GetUsersBalanceAction>(GetUsersBalanceAction);
     this.init();
   }
 
@@ -96,6 +102,16 @@ class Server {
         method: 'POST',
         path: '/withdraw',
         handler: this.withdrawAction.execute
+      },
+      {
+        method: 'GET',
+        path: '/users/transactions',
+        handler: this.getTransactionsAction.execute
+      },
+      {
+        method: 'GET',
+        path: '/users/balance',
+        handler: this.getUsersBalanceAction.execute
       },
     ]);
 
