@@ -4,20 +4,8 @@
   "description": "Backend challenge for GreenRun",
   "main": "server.js",
   "scripts": {
-    "dev:ts-node:transpile": "node --inspect=0.0.0.0 -r ts-node/register src/server.ts",
-    "dev:transpile": "tsc && node --inspect=0.0.0.0 dist/server.js",
-    "dev": "tsnd --respawn src/server.ts",
     "transpile": "tsc",
     "start": "NODE_ENV=development nodemon -e ts  --exec \"yarn run dev:transpile\"",
-    "build": "rm -Rf dist/ && tsc",
-    "serve": "node build/index.js",
-    "linter:check": "eslint 'src/**/*.ts'",
-    "prettier:check": "prettier -c 'src/**/*.ts'",
-    "prettier:run": "prettier --write 'src/**/*.ts'",
-    "prettier:checkJSON": "prettier -c 'src/**/*.json'",
-    "prettier:runJSON": "prettier --write 'src/**/*.json'",
-    "prettier:letscheck": "prettier --config .prettierrc 'src/**/*.ts' -c",
-    "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "@hapi/hapi": "^20.2.2",
