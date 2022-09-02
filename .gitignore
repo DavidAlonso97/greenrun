@@ -1,0 +1,6 @@
+dist/
+mysql-config/
+mysql-data/
+node_modules/
+redis/
+.env
