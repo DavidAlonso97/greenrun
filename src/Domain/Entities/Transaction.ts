@@ -37,4 +37,16 @@ export default class Transaction {
     public getId(): number {
         return this.id;
     }
+
+    public getAmount(): number {
+        return this.amount;
+    }
+
+    public getStatus(): string {
+        return this.status;
+    }
+
+    public getCategory(): string {
+        return this.category;
+    }
 }

@@ -7,7 +7,7 @@ exports.up = function (knex) {
         .createTable('transactions', function (table) {
             table.increments('id');
             table.integer('user_id').notNullable();
-            table.string('amount', 255).notNullable();
+            table.float('amount').notNullable();
             table.string('category', 255).notNullable();
             table.string('status', 255).notNullable();
             table.integer('user_bet_id').nullable();

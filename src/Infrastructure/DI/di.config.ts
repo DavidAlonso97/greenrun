@@ -43,6 +43,9 @@ import WithdrawHandler from '../../Application/Handlers/Transactions/WithdrawHan
 import GetTransactionsAction from '../../Http/Actions/Transactions/GetTransactionsAction';
 import GetTransactionAdapter from '../../Http/Adapters/Transactions/GetTransactionsAdapter';
 import GetTransactionsHandler from '../../Application/Handlers/Transactions/GetTransactionsHandler';
+import GetUsersBalanceAction from '../../Http/Actions/Users/GetUsersBalanceAction';
+import GetUsersBalanceAdapter from '../../Http/Adapters/Users/GetUsersBalanceAdapter';
+import GetUsersBalanceHandler from '../../Application/Handlers/Users/GetUsersBalanceHandler';
 
 const DIContainer = new Container();
 
@@ -53,6 +56,7 @@ DIContainer.bind<CreateUsersAction>(CreateUsersAction).toSelf();
 DIContainer.bind<GetUsersAction>(GetUsersAction).toSelf();
 DIContainer.bind<UpdateUserAction>(UpdateUserAction).toSelf();
 DIContainer.bind<BanUserAction>(BanUserAction).toSelf();
+DIContainer.bind<GetUsersBalanceAction>(GetUsersBalanceAction).toSelf();
 
 DIContainer.bind<CreateBetsAction>(CreateBetsAction).toSelf();
 DIContainer.bind<PlaceBetsAction>(PlaceBetsAction).toSelf();
@@ -68,6 +72,7 @@ DIContainer.bind<LoginUsersAdapter>(LoginUsersAdapter).toSelf();
 DIContainer.bind<CreateUsersAdapter>(CreateUsersAdapter).toSelf();
 DIContainer.bind<UpdateUsersAdapter>(UpdateUsersAdapter).toSelf();
 DIContainer.bind<BanUsersAdapter>(BanUsersAdapter).toSelf();
+DIContainer.bind<GetUsersBalanceAdapter>(GetUsersBalanceAdapter).toSelf();
 
 DIContainer.bind<CreateBetsAdapter>(CreateBetsAdapter).toSelf();
 DIContainer.bind<PlaceBetsAdapter>(PlaceBetsAdapter).toSelf();
@@ -84,6 +89,7 @@ DIContainer.bind<CreateUsersHandler>(CreateUsersHandler).toSelf();
 DIContainer.bind<GetUsersHandler>(GetUsersHandler).toSelf();
 DIContainer.bind<UpdateUsersHandler>(UpdateUsersHandler).toSelf();
 DIContainer.bind<BanUsersHandler>(BanUsersHandler).toSelf();
+DIContainer.bind<GetUsersBalanceHandler>(GetUsersBalanceHandler).toSelf();
 
 DIContainer.bind<PlaceBetsHandler>(PlaceBetsHandler).toSelf();
 DIContainer.bind<CreateBetsHandler>(CreateBetsHandler).toSelf();
