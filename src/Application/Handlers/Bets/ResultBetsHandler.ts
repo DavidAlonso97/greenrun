@@ -1,17 +1,16 @@
 import { inject, injectable } from 'inversify';
-import TransactionRepositoryInterface from '../../../Domain/Interfaces/Repositories/TransactionRepositoryInterface';
 import BetRepositoryInterface from '../../../Domain/Interfaces/Repositories/BetRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import ResultBetsCommand from '../../Commands/Bets/ResultBetsCommand';
 import UserBetRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserBetRepositoryInterface';
-import Transaction from '../../../Domain/Entities/Transaction';
+import TransactionService from '../../../Application/Services/Transactions/TransactionsService';
 
 @injectable()
 export default class ResultBetHandler {
   public constructor(
     @inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface,
-    @inject(INTERFACES.TransactionRepositoryInterface) private transactionRepository: TransactionRepositoryInterface,
-    @inject(INTERFACES.UserBetRepositoryInterface) private userBetRepository: UserBetRepositoryInterface
+    @inject(INTERFACES.UserBetRepositoryInterface) private userBetRepository: UserBetRepositoryInterface,
+    @inject(TransactionService) private transactionService: TransactionService
   ) { }
 
   public async execute(command: ResultBetsCommand): Promise<void> {
@@ -25,14 +24,13 @@ export default class ResultBetHandler {
 
     const userBets = await this.userBetRepository.findBy({bet_id:1});
     for (let userBetIndex = 0; userBetIndex < userBets.length; userBetIndex++) {
-      const transaction = new Transaction(
+      this.transactionService.generateTransaction(
         userBets[userBetIndex].user_id,
         userBets[userBetIndex].amount,
         'bet',
         'completed',
         userBets[userBetIndex].id
       );
-      this.transactionRepository.persist(transaction);
     }
   }
 }

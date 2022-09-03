@@ -1,12 +1,12 @@
 export default class UpdateBetsCommand {
     public id: number;
-    public status: string;
-    public odd: number;
+    public status: string|null;
+    public odd: number|null;
 
     public constructor(
         id: number,
-        status: string,
-        odd: number
+        status: string|null,
+        odd: number|null
     ) {
         this.id = id;
         this.status = status;
@@ -17,11 +17,11 @@ export default class UpdateBetsCommand {
         return this.id;
     }
 
-    public getStatus(): string {
+    public getStatus(): string|null {
         return this.status;
     }
 
-    public getOdd(): number {
+    public getOdd(): number|null {
         return this.odd;
     }
 }

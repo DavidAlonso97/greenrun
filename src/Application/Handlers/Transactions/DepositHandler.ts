@@ -17,7 +17,7 @@ export default class DepositHandler {
             throw new Error('Entity not found');
         }
         this.transactionService.generateTransaction(
-            user,
+            user.getId(),
             command.getAmount(),
             'deposit',//todo status enums
             'completed',//todo status enums

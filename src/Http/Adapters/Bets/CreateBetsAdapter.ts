@@ -1,19 +1,33 @@
 import { Request } from "@hapi/hapi";
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import ValidatorInterface from "../../../Http/Validators/ValidatorInterface";
+import { INTERFACES } from "../../../Infrastructure/DI/Interfaces.types";
 import CreateBetsCommand from '../../../Application/Commands/Bets/CreateBetsCommand';
+import { createBetsSchema } from "../../Validators/Schemas/Bets/CreateBetsSchema";
 
 @injectable()
 export default class CreateBetsAdapter {
+    constructor(
+        @inject(INTERFACES.ValidatorInterface) private validator: ValidatorInterface
+    ) {
+    }
+
     public from(request: Request): CreateBetsCommand {
-        const payload = request.payload;
+        const body = request.payload;
+        const error = this.validator.validate(body, createBetsSchema);
+
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
+        
         return new CreateBetsCommand(
-            payload.bet_option,
-            payload.sport,
-            payload.status,
-            payload.name,
-            payload.event_id,
-            payload.odd,
-            payload.result,
+            body.bet_option,
+            body.sport,
+            body.status,
+            body.name,
+            body.event_id,
+            body.odd,
+            body.result,
         );
     }
 }

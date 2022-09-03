@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import TransactionRepositoryInterface from '../../../Domain/Interfaces/Repositories/TransactionRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
-import User from '../../../Domain/Entities/User';
 import Transaction from '../../../Domain/Entities/Transaction';
 
 @injectable()
@@ -13,7 +12,7 @@ export default class TransactionService {
     }
 
     public generateTransaction(
-        user: User,
+        user_id: number,
         amount: number,
         category: string,
         status: string,
@@ -21,7 +20,7 @@ export default class TransactionService {
     ): void {
         this.transactionRepository.persist(
             new Transaction(
-                user.getId(),
+                user_id,
                 amount,
                 category,
                 status,

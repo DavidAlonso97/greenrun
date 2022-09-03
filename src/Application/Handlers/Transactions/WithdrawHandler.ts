@@ -17,7 +17,7 @@ export default class WithdrawHandler {
             throw new Error('Entity not found');
         }
         this.transactionService.generateTransaction(
-            user,
+            user.getId(),
             command.getAmount(),
             'withdraw',//todo status enums
             'completed',//todo status enums

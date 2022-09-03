@@ -33,7 +33,7 @@ export default class PlaceBetsHandler {
       );
       const userBetId = await this.userBetRepository.persist(userBet);
       this.transactionService.generateTransaction(
-        user,
+        user.getId(),
         bets[betIndex].amount,
         'bet',//todo status enums
         'completed',//todo status enums

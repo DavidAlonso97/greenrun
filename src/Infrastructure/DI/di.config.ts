@@ -52,6 +52,8 @@ import UpdateBetsHandler from '../../Application/Handlers/Bets/UpdateBetsHandler
 import ResultBetsAction from '../../Http/Actions/Bets/ResultBetsAction';
 import ResultBetsAdapter from '../../Http/Adapters/Bets/ResultBetsAdapter';
 import ResultBetHandler from '../../Application/Handlers/Bets/ResultBetsHandler';
+import ValidatorInterface from '../../Http/Validators/ValidatorInterface';
+import Validator from '../../Http/Validators/Validator';
 
 const DIContainer = new Container();
 
@@ -120,5 +122,7 @@ DIContainer.bind<UserBetRepositoryInterface>(INTERFACES.UserBetRepositoryInterfa
 //Services
 DIContainer.bind<RedisConnectionInterface>(INTERFACES.RedisConnectionInterface).to(RedisConnection).inSingletonScope();
 DIContainer.bind<TransactionService>(TransactionService).toSelf();
+
+DIContainer.bind<ValidatorInterface>(INTERFACES.ValidatorInterface).to(Validator);
 
 export default DIContainer;

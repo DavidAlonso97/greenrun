@@ -4,4 +4,5 @@ export const INTERFACES = {
   BetRepositoryInterface: Symbol.for('BetRepositoryInterface'),
   RedisConnectionInterface: Symbol.for('RedisConnectionInterface'),
   UserBetRepositoryInterface: Symbol.for('UserBetRepositoryInterface'),
+  ValidatorInterface: Symbol.for('ValidatorInterface'),
 };
