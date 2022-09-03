@@ -5,7 +5,6 @@ export default class CreateBetsCommand {
     public name: string;
     public event_id: number;
     public odd: number;
-    public result: string;
 
     public constructor(
         bet_option: string,
@@ -13,8 +12,7 @@ export default class CreateBetsCommand {
         status: string,
         name: string,
         event_id: number,
-        odd: number,
-        result: string,
+        odd: number
     ) {
         this.bet_option = bet_option;
         this.sport = sport;
@@ -22,7 +20,6 @@ export default class CreateBetsCommand {
         this.name = name;
         this.event_id = event_id;
         this.odd = odd;
-        this.result = result;
     }
 
     public getBetOption(): string {
@@ -47,9 +44,5 @@ export default class CreateBetsCommand {
 
     public getOdd(): number {
         return this.odd;
-    }
-
-    public getResult(): string {
-        return this.result;
     }
 }

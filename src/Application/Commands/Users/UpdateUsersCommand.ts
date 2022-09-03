@@ -13,7 +13,6 @@ export default class UpdateUsersCommand {
     public city: string;
     public category: string;
     public document_id: number;
-    public user_state: string;
   
     public constructor(
       id: number,
@@ -29,8 +28,7 @@ export default class UpdateUsersCommand {
       country_id: number,
       city: string,
       category: string,
-      document_id: number,
-      user_state: string
+      document_id: number
     ) {
       this.id = id;
       this.role = role;
@@ -46,7 +44,6 @@ export default class UpdateUsersCommand {
       this.city = city;
       this.category = category;
       this.document_id = document_id;
-      this.user_state = user_state;
     }
   
     public getId(): number {
@@ -104,10 +101,5 @@ export default class UpdateUsersCommand {
     public getDocumentId(): number {
       return this.document_id;
     }
-  
-    public getUserState(): string {
-      return this.user_state;
-    }
-  
   }
   

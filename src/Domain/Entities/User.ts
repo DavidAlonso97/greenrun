@@ -16,7 +16,7 @@ export default class User {
     public city: string;
     public category: string;
     public document_id: number;
-    public user_state: string;
+    public user_state: string|null;
 
     public created_at: Date;
 
@@ -41,7 +41,7 @@ export default class User {
         city: string,
         category: string,
         document_id: number,
-        user_state: string
+        user_state?: string|null
     ) {
         this.role = role;
         this.first_name = first_name;
@@ -57,7 +57,7 @@ export default class User {
         this.city = city;
         this.category = category;
         this.document_id = document_id;
-        this.user_state = user_state;
+        this.user_state = user_state ? user_state : null;
         this.created_at = new Date();
         this.updated_at = new Date();
         this.deleted = false;

@@ -6,6 +6,10 @@ import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import PlaceBetsCommand from '../../Commands/Bets/PlaceBetsCommand';
 import BetRepositoryInterface from '../../../Domain/Interfaces/Repositories/BetRepositoryInterface';
 import TransactionService from '../../../Application/Services/Transactions/TransactionsService';
+import { BET_STATUSES } from '../../../Domain/Interfaces/BetStatus';
+import { USER_BET_STATUSES } from '../../../Domain/Interfaces/UserBetStatus';
+import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionCategories';
+import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
 
 @injectable()
 export default class PlaceBetsHandler {
@@ -21,7 +25,7 @@ export default class PlaceBetsHandler {
     const bets = command.getBets();
     for (let betIndex = 0; betIndex < bets.length; betIndex++) {
       const bet = await this.betRepository.findOneById(bets[betIndex].betId);
-      if (!bet || bet.status !== 'active') {//todo status enums
+      if (!bet || bet.status !== BET_STATUSES.ACTIVE) {
         continue;
       }
       let userBet = new UserBet(
@@ -29,14 +33,14 @@ export default class PlaceBetsHandler {
         bets[betIndex].betId,
         bet.odd,
         bets[betIndex].amount,
-        'open',//todo status enums
+        USER_BET_STATUSES.OPEN,
       );
       const userBetId = await this.userBetRepository.persist(userBet);
       this.transactionService.generateTransaction(
         user.getId(),
         bets[betIndex].amount,
-        'bet',//todo status enums
-        'completed',//todo status enums
+        TRANSACCIONS_CATEGORIES.BET,
+        TRANSACCIONS_STATUSES.COMPLETED,
         userBetId
       );
     }

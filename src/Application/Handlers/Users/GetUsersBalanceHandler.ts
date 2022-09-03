@@ -4,6 +4,9 @@ import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/Use
 import GetUsersBalanceQuery from '../../Commands/Users/GetUsersBalanceQuery';
 import TransactionRepositoryInterface from '../../../Domain/Interfaces/Repositories/TransactionRepositoryInterface';
 import UserBetRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserBetRepositoryInterface';
+import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
+import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionCategories';
+import { USER_BET_STATUSES } from '../../../Domain/Interfaces/UserBetStatus';
 
 @injectable()
 export default class GetUsersBalanceHandler {
@@ -23,23 +26,23 @@ export default class GetUsersBalanceHandler {
         for (let transactionIndex = 0; transactionIndex < result.length; transactionIndex++) {
             const transaction = result[transactionIndex];
             let transactionAmount = transaction.amount;
-            if(transaction.status !== 'completed') {
+            if(transaction.status !== TRANSACCIONS_STATUSES.COMPLETED) {
                 continue;
             }
-            if (transaction.category === 'withdraw') {
+            if (transaction.category === TRANSACCIONS_CATEGORIES.WITHDRAW) {
                 balance -= transactionAmount;
                 continue;
             }
-            if (transaction.category === 'bet') {
+            if (transaction.category === TRANSACCIONS_CATEGORIES.BET) {
                 const userBet = await this.userBetRepository.findOneById(transaction.user_bet_id);
-                if (userBet.state === 'won') {
+                if (userBet.state === USER_BET_STATUSES.WON) {
                     balance += (userBet.odd * transactionAmount);
                 } else {
                     balance -= transactionAmount;
                 }
                 continue;
             }
-            if (transaction.category === 'deposit' || transaction.category === 'winning') {
+            if (transaction.category === TRANSACCIONS_CATEGORIES.DEPOSIT || transaction.category === TRANSACCIONS_CATEGORIES.WINNING) {
                 balance += transactionAmount;
             }
         }

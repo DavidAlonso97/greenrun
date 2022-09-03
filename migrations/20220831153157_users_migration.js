@@ -20,7 +20,7 @@ exports.up = function (knex) {
             table.string('city', 255).notNullable();
             table.string('category', 255).notNullable();
             table.integer('document_id', 255).notNullable();
-            table.string('user_state', 255).notNullable();
+            table.string('user_state', 255).nullable();
             table.date('created_at').notNullable();
             table.date('updated_at').notNullable();
             table.boolean('deleted').notNullable().defaultTo(false);

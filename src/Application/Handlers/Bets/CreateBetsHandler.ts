@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import { BET_STATUSES } from '../../../Domain/Interfaces/BetStatus';
 import Bet from '../../../Domain/Entities/Bet';
 import BetRepositoryInterface from '../../../Domain/Interfaces/Repositories/BetRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
@@ -11,16 +12,13 @@ export default class CreateBetsHandler {
   ) { }
 
   public async execute(command: CreateBetsCommand): Promise<void> {
-    
-
     const bet = new Bet(
         command.getBetOption(),
         command.getSport(),
-        command.getStatus(),
+        BET_STATUSES.ACTIVE,
         command.getName(),
         command.getEventId(),
-        command.getOdd(),
-        command.getResult(),
+        command.getOdd()
     );
     this.betRepository.persist(bet);
   }

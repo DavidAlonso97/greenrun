@@ -39,8 +39,7 @@ export default class UpdateUsersAdapter {
             body.country_id,
             body.city,
             body.category,
-            body.document_id,
-            body.user_state
+            body.document_id
         );
     }
 }

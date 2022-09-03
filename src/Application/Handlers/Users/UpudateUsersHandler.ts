@@ -24,7 +24,6 @@ export default class UpdateUsersHandler {
     user.setCity(command.getCity());
     user.setCategory(command.getCategory());
     user.setDocumentId(command.getDocumentId());
-    user.setUserState(command.getUserState());
 
     this.userRepository.update(user);
   }

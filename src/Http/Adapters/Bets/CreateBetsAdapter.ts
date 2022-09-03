@@ -26,8 +26,7 @@ export default class CreateBetsAdapter {
             body.status,
             body.name,
             body.event_id,
-            body.odd,
-            body.result,
+            body.odd
         );
     }
 }

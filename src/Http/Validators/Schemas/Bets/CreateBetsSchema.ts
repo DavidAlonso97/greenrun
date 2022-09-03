@@ -16,9 +16,6 @@ export const createBetsSchema = Joi.object(
         event_id: Joi.number()
             .required(),
         odd: Joi.number()
-            .required(),
-        result: Joi.string()
-            .alphanum()
-            .required(),
+            .required()
     }
 )

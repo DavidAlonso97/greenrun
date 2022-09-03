@@ -4,6 +4,9 @@ import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import ResultBetsCommand from '../../Commands/Bets/ResultBetsCommand';
 import UserBetRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserBetRepositoryInterface';
 import TransactionService from '../../../Application/Services/Transactions/TransactionsService';
+import { BET_STATUSES } from '../../../Domain/Interfaces/BetStatus';
+import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionCategories';
+import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
 
 @injectable()
 export default class ResultBetHandler {
@@ -15,10 +18,10 @@ export default class ResultBetHandler {
 
   public async execute(command: ResultBetsCommand): Promise<void> {
     let bet = await this.betRepository.findOneById(command.getId());
-    if (bet.status !== 'active'){
+    if (bet.status !== BET_STATUSES.ACTIVE){
       throw new Error('Status is not active');
     }
-    bet.status = 'finished';
+    bet.status = BET_STATUSES.SETTLED;
     bet.result = command.getResult();
     await this.betRepository.update(bet);
 
@@ -27,8 +30,8 @@ export default class ResultBetHandler {
       this.transactionService.generateTransaction(
         userBets[userBetIndex].user_id,
         userBets[userBetIndex].amount,
-        'bet',
-        'completed',
+        TRANSACCIONS_CATEGORIES.BET,
+        TRANSACCIONS_STATUSES.COMPLETED,
         userBets[userBetIndex].id
       );
     }

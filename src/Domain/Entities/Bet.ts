@@ -7,7 +7,7 @@ export default class Bet {
     public name: string;
     public event_id: number;
     public odd: number;
-    public result: string;
+    public result: string|null;
     
     public created_at: Date;
 
@@ -24,7 +24,7 @@ export default class Bet {
         name: string,
         event_id: number,
         odd: number,
-        result: string
+        result?: string|null
     ) {
         this.bet_option = bet_option;
         this.sport = sport;
@@ -32,7 +32,7 @@ export default class Bet {
         this.name = name;
         this.event_id = event_id;
         this.odd = odd;
-        this.result = result;
+        this.result = result ? result : null;
 
         this.created_at = new Date();
         this.updated_at = new Date();

@@ -3,6 +3,8 @@ import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import TransactionService from '../../../Application/Services/Transactions/TransactionsService';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import DepositCommand from '../../Commands/Transactions/DepositCommand';
+import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionCategories';
+import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
 
 @injectable()
 export default class WithdrawHandler {
@@ -19,8 +21,8 @@ export default class WithdrawHandler {
         this.transactionService.generateTransaction(
             user.getId(),
             command.getAmount(),
-            'withdraw',//todo status enums
-            'completed',//todo status enums
+            TRANSACCIONS_CATEGORIES.WITHDRAW,
+            TRANSACCIONS_STATUSES.COMPLETED
         );
 
     }

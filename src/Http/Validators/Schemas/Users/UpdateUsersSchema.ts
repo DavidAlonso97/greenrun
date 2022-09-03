@@ -17,7 +17,6 @@ export const updateUsersSchema = Joi.object({
         country_id: Joi.number().required(),
         city: Joi.string().alphanum().required(),
         category: Joi.string().alphanum().required(),
-        document_id: Joi.number().required(),
-        user_state: Joi.string().alphanum().required(),
+        document_id: Joi.number().required()
     }).required(),
 })

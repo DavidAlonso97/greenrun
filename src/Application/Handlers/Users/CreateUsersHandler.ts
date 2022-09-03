@@ -25,8 +25,7 @@ export default class CreateUsersHandler {
       command.getCountryId(),
       command.getCity(),
       command.getCategory(),
-      command.getDocumentId(),
-      command.getUserState()
+      command.getDocumentId()
     );
     this.userRepository.persist(user);
   }
