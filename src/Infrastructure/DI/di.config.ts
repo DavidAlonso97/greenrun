@@ -49,6 +49,9 @@ import GetUsersBalanceHandler from '../../Application/Handlers/Users/GetUsersBal
 import UpdateBetsAction from '../../Http/Actions/Bets/UpdateBetsAction';
 import UpdateBetsAdapter from '../../Http/Adapters/Bets/UpdateBetsAdapter';
 import UpdateBetsHandler from '../../Application/Handlers/Bets/UpdateBetsHandler';
+import ResultBetsAction from '../../Http/Actions/Bets/ResultBetsAction';
+import ResultBetsAdapter from '../../Http/Adapters/Bets/ResultBetsAdapter';
+import ResultBetHandler from '../../Application/Handlers/Bets/ResultBetsHandler';
 
 const DIContainer = new Container();
 
@@ -65,6 +68,7 @@ DIContainer.bind<CreateBetsAction>(CreateBetsAction).toSelf();
 DIContainer.bind<PlaceBetsAction>(PlaceBetsAction).toSelf();
 DIContainer.bind<GetBetsAction>(GetBetsAction).toSelf();
 DIContainer.bind<UpdateBetsAction>(UpdateBetsAction).toSelf();
+DIContainer.bind<ResultBetsAction>(ResultBetsAction).toSelf();
 
 DIContainer.bind<DepositAction>(DepositAction).toSelf();
 DIContainer.bind<WithdrawAction>(WithdrawAction).toSelf();
@@ -77,6 +81,7 @@ DIContainer.bind<CreateUsersAdapter>(CreateUsersAdapter).toSelf();
 DIContainer.bind<UpdateUsersAdapter>(UpdateUsersAdapter).toSelf();
 DIContainer.bind<BanUsersAdapter>(BanUsersAdapter).toSelf();
 DIContainer.bind<GetUsersBalanceAdapter>(GetUsersBalanceAdapter).toSelf();
+DIContainer.bind<ResultBetsAdapter>(ResultBetsAdapter).toSelf();
 
 DIContainer.bind<CreateBetsAdapter>(CreateBetsAdapter).toSelf();
 DIContainer.bind<PlaceBetsAdapter>(PlaceBetsAdapter).toSelf();
@@ -95,6 +100,7 @@ DIContainer.bind<GetUsersHandler>(GetUsersHandler).toSelf();
 DIContainer.bind<UpdateUsersHandler>(UpdateUsersHandler).toSelf();
 DIContainer.bind<BanUsersHandler>(BanUsersHandler).toSelf();
 DIContainer.bind<GetUsersBalanceHandler>(GetUsersBalanceHandler).toSelf();
+DIContainer.bind<ResultBetHandler>(ResultBetHandler).toSelf();
 
 DIContainer.bind<PlaceBetsHandler>(PlaceBetsHandler).toSelf();
 DIContainer.bind<CreateBetsHandler>(CreateBetsHandler).toSelf();

@@ -13,7 +13,6 @@ export default class UpdateBetsHandler {
     let bet = await this.betRepository.findOneById(command.getId());
     bet.status = command.getStatus();
     bet.odd = command.getOdd();
-    bet.result = command.getResult();
     this.betRepository.update(bet);
   }
 }

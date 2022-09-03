@@ -2,11 +2,12 @@ import UserBetRepositoryInterface from '../../../Domain/Interfaces/Repositories/
 import { injectable } from 'inversify';
 import databaseConnection from '../DatabaseConnection';
 import UserBet from '../../../Domain/Entities/UserBet';
+import UserBetParamsInterface from '../../../Application/Commands/Interfaces/UserBetParamsInterface';
 
 @injectable()
 export default class KnexUserBetRepository implements UserBetRepositoryInterface {
   private repository(): any {
-    return databaseConnection<UserBet>('user_bets');
+    return databaseConnection<UserBet>('user_bets').where({deleted: false});
   };
 
   public async findAll(): Promise<UserBet[]> {
@@ -14,7 +15,15 @@ export default class KnexUserBetRepository implements UserBetRepositoryInterface
   }
 
   public async findOneById(id: number): Promise<UserBet> {
-    return await this.repository().where('id', id).first();
+    return await this.repository().andWhere('id', id).first();
+  }
+
+  public async findBy(params: UserBetParamsInterface): Promise<UserBet[]> {
+    let whereClause = {};
+    if (params.bet_id) {
+      whereClause['bet_id'] = params.bet_id;
+    }
+    return await this.repository().where(whereClause);
   }
 
   public async persist(userBet: UserBet): Promise<number> {
@@ -22,7 +31,7 @@ export default class KnexUserBetRepository implements UserBetRepositoryInterface
   }
 
   public async delete(userBet: UserBet): Promise<boolean> {
-    const result = await this.repository().where('id', userBet.getId())
+    const result = await this.repository().andWhere('id', userBet.getId())
     .update({
       deleted: true,
       deleted_at: new Date()

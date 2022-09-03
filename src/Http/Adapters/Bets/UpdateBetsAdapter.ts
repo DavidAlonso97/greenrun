@@ -10,8 +10,7 @@ export default class UpdateBetsAdapter {
         return new UpdateBetsCommand(
             params.id,
             payload.status,
-            payload.odd,
-            payload.result,
+            payload.odd
         );
     }
 }

@@ -2,18 +2,15 @@ export default class UpdateBetsCommand {
     public id: number;
     public status: string;
     public odd: number;
-    public result: string;
 
     public constructor(
         id: number,
         status: string,
-        odd: number,
-        result: string,
+        odd: number
     ) {
         this.id = id;
         this.status = status;
         this.odd = odd;
-        this.result = result;
     }
 
     public getId(): number {
@@ -26,9 +23,5 @@ export default class UpdateBetsCommand {
 
     public getOdd(): number {
         return this.odd;
-    }
-
-    public getResult(): string {
-        return this.result;
     }
 }
