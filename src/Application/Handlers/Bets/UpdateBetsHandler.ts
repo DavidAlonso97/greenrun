@@ -11,8 +11,12 @@ export default class UpdateBetsHandler {
 
   public async execute(command: UpdateBetsCommand): Promise<void> {
     let bet = await this.betRepository.findOneById(command.getId());
-    bet.status = command.getStatus();
-    bet.odd = command.getOdd();
+    if (command.getStatus()) {
+      bet.status = command.getStatus();
+    }
+    if (command.getOdd()) {
+      bet.odd = command.getOdd();
+    }
     this.betRepository.update(bet);
   }
 }
