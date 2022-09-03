@@ -7,6 +7,7 @@ import DepositHandler from '../../../Application/Handlers/Transactions/DepositHa
 
 @injectable()
 export default class DepositAction {
+  public readonly ROUTE_PATH = '/deposit';
   public constructor(
     @inject(DepositAdapter) private adapter: DepositAdapter,
     @inject(DepositHandler) private handler: DepositHandler,

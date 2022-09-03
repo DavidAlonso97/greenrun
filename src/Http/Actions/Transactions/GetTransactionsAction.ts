@@ -7,6 +7,7 @@ import GetTransactionsHandler from '../../../Application/Handlers/Transactions/G
 
 @injectable()
 export default class GetTransactionsAction {
+  public readonly ROUTE_PATH = '/users/transactions';
   public constructor(
     @inject(GetTransactionsAdapter) private adapter: GetTransactionsAdapter,
     @inject(GetTransactionsHandler) private handler: GetTransactionsHandler,

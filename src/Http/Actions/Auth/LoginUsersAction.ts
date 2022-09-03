@@ -11,6 +11,7 @@ import { timeStamp } from 'console';
 
 @injectable()
 export default class LoginUsersAction {
+  public readonly ROUTE_PATH = '/login';
   public constructor(
     @inject(LoginUsersAdapter) private adapter: LoginUsersAdapter,
     @inject(LoginUsersHandler) private handler: LoginUsersHandler,
@@ -21,7 +22,7 @@ export default class LoginUsersAction {
     const command: LoginUsersCommand = this.adapter.from(request);
     const result = await this.handler.execute(command);
     if (result) {
-      const token = jwt.sign({ timestamp: timeStamp() }, process.env.JWT_SECRET);
+      const token = jwt.sign({ tick: timeStamp() }, process.env.JWT_SECRET);
       this.redisClient.getConnection().set(token, result.getId());
       return h.response(
         {

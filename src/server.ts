@@ -16,6 +16,8 @@ import GetTransactionsAction from './Http/Actions/Transactions/GetTransactionsAc
 import GetUsersBalanceAction from './Http/Actions/Users/GetUsersBalanceAction';
 import UpdateBetsAction from './Http/Actions/Bets/UpdateBetsAction';
 import ResultBetsAction from './Http/Actions/Bets/ResultBetsAction';
+import { AuthMiddlewareInterface } from './Http/Middlewares/AuthMiddlewareInterface';
+import { INTERFACES } from './Infrastructure/DI/Interfaces.types';
 
 class Server {
   private loginUserAction: LoginUsersAction;
@@ -32,6 +34,7 @@ class Server {
   private getUsersBalanceAction: GetUsersBalanceAction;
   private updateBetsAction: UpdateBetsAction;
   private resultBetsAction: ResultBetsAction;
+  private authMiddleware: AuthMiddlewareInterface;
 
   constructor(
   ) {
@@ -49,6 +52,7 @@ class Server {
     this.getUsersBalanceAction = DIContainer.get<GetUsersBalanceAction>(GetUsersBalanceAction);
     this.updateBetsAction = DIContainer.get<UpdateBetsAction>(UpdateBetsAction);
     this.resultBetsAction = DIContainer.get<ResultBetsAction>(ResultBetsAction);
+    this.authMiddleware = DIContainer.get<AuthMiddlewareInterface>(INTERFACES.AuthMiddlewareInterface);
     this.init();
   }
 
@@ -58,80 +62,89 @@ class Server {
       port: 3000
     });
 
+    dotenv.config();
+
+    var authMiddleware = this.authMiddleware;
+    server.ext('onRequest', async function (request, h) {
+      if (request.path !== this.loginUserAction.ROUTE_PATH) {
+        request = await authMiddleware.check(request);
+      }
+      return h.continue;
+    });
+
     server.route([
       {
         method: 'POST',
-        path: '/login',
+        path: this.loginUserAction.ROUTE_PATH,
         handler: this.loginUserAction.execute
       },
       {
         method: 'POST',
-        path: '/users',
+        path: this.createUserAction.ROUTE_PATH,
         handler: this.createUserAction.execute
       },
       {
         method: 'GET',
-        path: '/users',
+        path: this.getUsersAction.ROUTE_PATH,
         handler: this.getUsersAction.execute
       },
       {
         method: 'PUT',
-        path: '/users/{id}',
+        path: this.updateUsersAction.ROUTE_PATH,
         handler: this.updateUsersAction.execute
       },
       {
         method: 'PUT',
-        path: '/users/{id}/ban',
+        path: this.banUsersAction.ROUTE_PATH,
         handler: this.banUsersAction.execute
       },
       {
         method: 'POST',
-        path: '/bets',
+        path: this.createBetsAction.ROUTE_PATH,
         handler: this.createBetsAction.execute
       },
       {
         method: 'PUT',
-        path: '/bets/{id}',
+        path: this.updateBetsAction.ROUTE_PATH,
         handler: this.updateBetsAction.execute
       },
       {
         method: 'PUT',
-        path: '/bets/{id}/result',
+        path: this.resultBetsAction.ROUTE_PATH,
         handler: this.resultBetsAction.execute
       },
       {
         method: 'GET',
-        path: '/bets',
+        path: this.getBetsAction.ROUTE_PATH,
         handler: this.getBetsAction.execute
       },
       {
         method: 'POST',
-        path: '/users/bets',
+        path: this.placeBetsAction.ROUTE_PATH,
         handler: this.placeBetsAction.execute
       },
       {
         method: 'POST',
-        path: '/deposit',
+        path: this.depositAction.ROUTE_PATH,
         handler: this.depositAction.execute
       },
       {
         method: 'POST',
-        path: '/withdraw',
+        path: this.withdrawAction.ROUTE_PATH,
         handler: this.withdrawAction.execute
       },
       {
         method: 'GET',
-        path: '/users/transactions',
+        path: this.getTransactionsAction.ROUTE_PATH,
         handler: this.getTransactionsAction.execute
       },
       {
         method: 'GET',
-        path: '/users/balance',
+        path: this.getUsersBalanceAction.ROUTE_PATH,
         handler: this.getUsersBalanceAction.execute
       },
     ]);
 
-    dotenv.config();
     await server.start();
     console.log('Server running on %s', server.info.uri);
   };

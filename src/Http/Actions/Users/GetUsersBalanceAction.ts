@@ -7,6 +7,7 @@ import GetUsersBalanceHandler from '../../../Application/Handlers/Users/GetUsers
 
 @injectable()
 export default class GetUsersBalanceAction {
+  public readonly ROUTE_PATH = '/users/balance';
   public constructor(
     @inject(GetUsersBalanceAdapter) private adapter: GetUsersBalanceAdapter,
     @inject(GetUsersBalanceHandler) private handler: GetUsersBalanceHandler,

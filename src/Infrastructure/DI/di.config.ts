@@ -54,6 +54,8 @@ import ResultBetsAdapter from '../../Http/Adapters/Bets/ResultBetsAdapter';
 import ResultBetHandler from '../../Application/Handlers/Bets/ResultBetsHandler';
 import ValidatorInterface from '../../Http/Validators/ValidatorInterface';
 import Validator from '../../Http/Validators/Validator';
+import { AuthMiddlewareInterface } from '../../Http/Middlewares/AuthMiddlewareInterface';
+import AuthMiddleware from '../../Http/Middlewares/AuthMiddleware';
 
 const DIContainer = new Container();
 
@@ -124,5 +126,6 @@ DIContainer.bind<RedisConnectionInterface>(INTERFACES.RedisConnectionInterface).
 DIContainer.bind<TransactionService>(TransactionService).toSelf();
 
 DIContainer.bind<ValidatorInterface>(INTERFACES.ValidatorInterface).to(Validator);
+DIContainer.bind<AuthMiddlewareInterface>(INTERFACES.AuthMiddlewareInterface).to(AuthMiddleware);
 
 export default DIContainer;

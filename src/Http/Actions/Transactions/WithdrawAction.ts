@@ -7,6 +7,7 @@ import WithdrawHandler from '../../../Application/Handlers/Transactions/Withdraw
 
 @injectable()
 export default class WithdrawAction {
+  public readonly ROUTE_PATH = '/withdraw';
   public constructor(
     @inject(WithdrawAdapter) private adapter: WithdrawAdapter,
     @inject(WithdrawHandler) private handler: WithdrawHandler,

@@ -7,6 +7,7 @@ import UpudateUsersHandler from '../../../Application/Handlers/Users/UpudateUser
 
 @injectable()
 export default class UpdateUserAction {
+  public readonly ROUTE_PATH = '/users/{id}';
   public constructor(
     @inject(UpdateUsersAdapter) private adapter: UpdateUsersAdapter,
     @inject(UpudateUsersHandler) private handler: UpudateUsersHandler,

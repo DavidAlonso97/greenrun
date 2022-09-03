@@ -11,6 +11,8 @@ export default class CreateBetsHandler {
   ) { }
 
   public async execute(command: CreateBetsCommand): Promise<void> {
+    
+
     const bet = new Bet(
         command.getBetOption(),
         command.getSport(),

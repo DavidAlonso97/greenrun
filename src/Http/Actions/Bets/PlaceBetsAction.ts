@@ -7,6 +7,7 @@ import PlaceBetsHandler from '../../../Application/Handlers/Bets/PlaceBetsHandle
 
 @injectable()
 export default class PlaceBetsAction {
+  public readonly ROUTE_PATH = '/users/bets';
   public constructor(
     @inject(PlaceBetsAdapter) private adapter: PlaceBetsAdapter,
     @inject(PlaceBetsHandler) private handler: PlaceBetsHandler,

@@ -1,21 +1,21 @@
 import { inject, injectable } from 'inversify';
 import { HTTP_CODES } from '../../Enums/HttpStatusCode';
 import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
-// import CreateUserCommand from '../../../Application/Commands/Users/CreateUserCommand';
-// import CreateUserAdapter from '../../../Http/Adapters/Users/CreateUserAdapter';
 import GetUsersHandler from '../../../Application/Handlers/Users/GetUsersHandler';
+import { USER_ROLES } from '../../../Domain/Interfaces/UserRoles';
 
 @injectable()
-export default class getUsersAction {
+export default class GetUsersAction {
+  public readonly ROUTE_PATH = '/users';
   public constructor(
-    // @inject(CreateUserAdapter) private adapter: CreateUserAdapter,
     @inject(GetUsersHandler) private handler: GetUsersHandler,
   ) {}
 
   public execute = async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
-    // const command: CreateUserCommand = this.adapter.from(request.body);
-    console.log(request.body);
-    const result = await this.handler.execute();//todo should pass throw presenter
+    if (request.current_user.role !== USER_ROLES.ADMIN) {
+      throw new Error('Unauthorized user');
+    }
+    const result = await this.handler.execute();
     return h.response(result).code(HTTP_CODES.OK);
   }
 }
