@@ -20,12 +20,12 @@ export default class UpdateUsersAdapter {
         let error = null;
         let userId = null;
         let fromAdmin = false;
-        if (request.current_user.role !== USER_ROLES.ADMIN) {
+        if (request['current_user'].role !== USER_ROLES.ADMIN) {
             error = this.validator.validate({
                 body: body,
                 params: params,
             }, updateUsersSchema);
-            userId = request.current_user.id;
+            userId = request['current_user'].id;
         } else {
             error = this.validator.validate({
                 body: body,
@@ -42,18 +42,18 @@ export default class UpdateUsersAdapter {
         return new UpdateUsersCommand(
             fromAdmin,
             userId,
-            body.first_name,
-            body.last_name,
-            body.phone,
-            body.email,
-            body.username,
-            body.address,
-            body.gender,
-            body.birth_date,
-            body.country_id,
-            body.city,
-            body.category,
-            body.document_id
+            body['first_name'],
+            body['last_name'],
+            body['phone'],
+            body['email'],
+            body['username'],
+            body['address'],
+            body['gender'],
+            body['birth_date'],
+            body['country_id'],
+            body['city'],
+            body['category'],
+            body['document_id']
         );
     }
 }

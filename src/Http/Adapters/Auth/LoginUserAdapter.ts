@@ -21,8 +21,8 @@ export default class LoginUsersAdapter {
     }
 
     return new LoginUsersCommand(
-      body.username,
-      body.password,
+      body['username'],
+      body['password'],
     );
   }
 }

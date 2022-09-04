@@ -27,8 +27,8 @@ export default class UpdateBetsAdapter {
 
         return new UpdateBetsCommand(
             params.id,
-            body.status,
-            body.odd
+            body['status'],
+            body['odd']
         );
     }
 }

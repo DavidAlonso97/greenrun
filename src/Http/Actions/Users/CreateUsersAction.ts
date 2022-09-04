@@ -15,7 +15,7 @@ export default class CreateUsersAction {
   ) { }
 
   public execute = async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
-    if (request.current_user.role !== USER_ROLES.ADMIN) {
+    if (request['current_user'].role !== USER_ROLES.ADMIN) {
       throw new Error('Unauthorized user');
     }
     const command: CreateUsersCommand = this.adapter.from(request);

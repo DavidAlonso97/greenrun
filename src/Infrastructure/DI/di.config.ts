@@ -56,6 +56,7 @@ import ValidatorInterface from '../../Http/Validators/ValidatorInterface';
 import Validator from '../../Http/Validators/Validator';
 import { AuthMiddlewareInterface } from '../../Http/Middlewares/AuthMiddlewareInterface';
 import AuthMiddleware from '../../Http/Middlewares/AuthMiddleware';
+import ProtectedRoutes from '../../Http/Middlewares/ProtectedRoutes';
 
 const DIContainer = new Container();
 
@@ -127,5 +128,6 @@ DIContainer.bind<TransactionService>(TransactionService).toSelf();
 
 DIContainer.bind<ValidatorInterface>(INTERFACES.ValidatorInterface).to(Validator);
 DIContainer.bind<AuthMiddlewareInterface>(INTERFACES.AuthMiddlewareInterface).to(AuthMiddleware);
+DIContainer.bind<ProtectedRoutes>(ProtectedRoutes).toSelf();
 
 export default DIContainer;

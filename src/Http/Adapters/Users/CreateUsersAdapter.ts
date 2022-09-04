@@ -22,20 +22,20 @@ export default class CreateUsersAdapter {
     }
     
     return new CreateUsersCommand(
-      body.role,
-      body.first_name,
-      body.last_name,
-      body.phone,
-      body.email,
-      body.username,
-      bcrypt.hashSync(body.password, Number(process.env.SALT_ROUNDS)),
-      body.address,
-      body.gender,
-      body.birth_date,
-      body.country_id,
-      body.city,
-      body.category,
-      body.document_id
+      body['role'],
+      body['first_name'],
+      body['last_name'],
+      body['phone'],
+      body['email'],
+      body['username'],
+      bcrypt.hashSync(body['password'], Number(process.env.SALT_ROUNDS)),
+      body['address'],
+      body['gender'],
+      body['birth_date'],
+      body['country_id'],
+      body['city'],
+      body['category'],
+      body['document_id']
     );
   }
 }

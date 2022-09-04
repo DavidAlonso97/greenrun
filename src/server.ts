@@ -1,5 +1,8 @@
 import 'reflect-metadata';
 import Hapi from '@hapi/hapi';
+import Inert from '@hapi/inert';
+import Vision from '@hapi/vision';
+import HapiSwagger from 'hapi-swagger';
 import CreateUsersAction from './Http/Actions/Users/CreateUsersAction';
 import DIContainer from './Infrastructure/DI/di.config';
 import GetUsersAction from './Http/Actions/Users/GetUsersAction';
@@ -18,6 +21,7 @@ import UpdateBetsAction from './Http/Actions/Bets/UpdateBetsAction';
 import ResultBetsAction from './Http/Actions/Bets/ResultBetsAction';
 import { AuthMiddlewareInterface } from './Http/Middlewares/AuthMiddlewareInterface';
 import { INTERFACES } from './Infrastructure/DI/Interfaces.types';
+import ProtectedRoutes from './Http/Middlewares/ProtectedRoutes';
 
 class Server {
   private loginUserAction: LoginUsersAction;
@@ -35,6 +39,7 @@ class Server {
   private updateBetsAction: UpdateBetsAction;
   private resultBetsAction: ResultBetsAction;
   private authMiddleware: AuthMiddlewareInterface;
+  private protectedRoutes: ProtectedRoutes;
 
   constructor(
   ) {
@@ -53,6 +58,7 @@ class Server {
     this.updateBetsAction = DIContainer.get<UpdateBetsAction>(UpdateBetsAction);
     this.resultBetsAction = DIContainer.get<ResultBetsAction>(ResultBetsAction);
     this.authMiddleware = DIContainer.get<AuthMiddlewareInterface>(INTERFACES.AuthMiddlewareInterface);
+    this.protectedRoutes = DIContainer.get<ProtectedRoutes>(ProtectedRoutes);
     this.init();
   }
 
@@ -62,12 +68,32 @@ class Server {
       port: 3000
     });
 
+    const swaggerOptions: HapiSwagger.RegisterOptions = {
+      info: {
+        title: 'GreenRun API Documentation'
+      }
+    };
+
+    const plugins: Array<Hapi.ServerRegisterPluginObject<any>> = [
+      {
+        plugin: Inert
+      },
+      {
+        plugin: Vision
+      },
+      {
+        plugin: HapiSwagger,
+        options: swaggerOptions
+      }
+    ];
+    await server.register(plugins);
+
     dotenv.config();
 
     var authMiddleware = this.authMiddleware;
-    var loginUserAction = this.loginUserAction;
-    server.ext('onRequest', async function (request, h){
-      if (request.path !== loginUserAction.ROUTE_PATH) {
+    var protectedRoutes = this.protectedRoutes;
+    server.ext('onRequest', async function (request, h) {
+      if (protectedRoutes.getProtectedRoutes().includes(request.path)) {
         request = await authMiddleware.check(request);
       }
       return h.continue;

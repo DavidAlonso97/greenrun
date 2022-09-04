@@ -21,11 +21,11 @@ export default class CreateBetsAdapter {
         }
 
         return new CreateBetsCommand(
-            body.bet_option,
-            body.sport,
-            body.name,
-            body.event_id,
-            body.odd
+            body['bet_option'],
+            body['sport'],
+            body['name'],
+            body['event_id'],
+            body['odd']
         );
     }
 }

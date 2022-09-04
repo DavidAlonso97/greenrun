@@ -15,7 +15,7 @@ export default class UpdateBetsAction {
   ) {}
 
   public execute = async (request: Request, h: ResponseToolkit): Promise<ResponseObject> => {
-    if (request.current_user.role !== USER_ROLES.ADMIN) {
+    if (request['current_user'].role !== USER_ROLES.ADMIN) {
       throw new Error('Unauthorized user');
     }
     const command: UpdateBetsCommand = this.adapter.from(request);

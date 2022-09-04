@@ -17,10 +17,9 @@ export default class PlaceBetsAdapter {
         const error = this.validator.validate(body, placeBetsSchema);
 
         if (error) {
-            console.log(error);
             throw new Error(error.details[0].message);
         }
 
-        return new PlaceBetsCommand(body.userId, body.bets);
+        return new PlaceBetsCommand(body['userId'], body['bets']);
     }
 }

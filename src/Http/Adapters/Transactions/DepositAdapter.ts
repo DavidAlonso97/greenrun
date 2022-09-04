@@ -22,8 +22,8 @@ export default class DepositAdapter {
     }
 
     return new DepositCommand(
-      body.user_id,
-      body.amount,
+      body['user_id'],
+      body['amount'],
     );
   }
 }

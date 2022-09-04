@@ -27,7 +27,7 @@ export default class ResultBetsAdapter {
 
         return new ResultBetsCommand(
             params.id,
-            body.result
+            body['result']
         );
     }
 }

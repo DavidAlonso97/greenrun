@@ -20,6 +20,6 @@ export default class GetBetsAdapter {
             throw new Error(error.details[0].message);
         }
 
-        return new GetBetsQuery(params);
+        return new GetBetsQuery(Object(params));
     }
 }

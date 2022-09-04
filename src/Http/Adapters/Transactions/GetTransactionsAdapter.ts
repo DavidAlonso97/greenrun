@@ -22,8 +22,8 @@ export default class GetTransactionAdapter {
     }
 
     return new GetTransactionQuery(
-      params.user_id,
-      params.category,
+      params['user_id'],
+      params['category'],
     );
   }
 }

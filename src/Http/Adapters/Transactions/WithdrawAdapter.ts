@@ -22,8 +22,8 @@ export default class WithdrawAdapter {
     }
     
     return new WithdrawCommand(
-        body.user_id,
-        body.amount,
+        body['user_id'],
+        body['amount'],
     );
   }
 }
