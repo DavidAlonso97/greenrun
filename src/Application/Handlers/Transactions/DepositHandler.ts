@@ -15,9 +15,7 @@ export default class DepositHandler {
 
   public async execute(command: DepositCommand): Promise<void> {
     var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-    if (!user) {
-      throw new Error('Entity not found');
-    }
+
     this.transactionService.generateTransaction(
       user.getId(),
       command.getAmount(),

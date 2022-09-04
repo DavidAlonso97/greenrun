@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import Boom from '@hapi/boom';
 import LoginUsersCommand from '../../Commands/Auth/LoginUsersCommand';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
@@ -13,7 +14,10 @@ export default class LoginUsersHandler {
     let user = await this.userRepository.findOneBy('username', command.getUsername());
 
     if (!user) {
-      throw new Error('User not found');
+      throw Boom.boomify(new Error(`User with username ${command.getUsername()} not found`), {
+        statusCode: 404,
+        data: `User with username ${command.getUsername()} not found`
+      })
     }
 
     return bcrypt.compare(command.getPassword(), user.getPassword()) ? user : null;

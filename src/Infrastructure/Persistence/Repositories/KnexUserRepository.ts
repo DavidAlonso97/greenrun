@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import User from '../../../Domain/Entities/User';
 import { injectable } from 'inversify';
@@ -18,7 +19,10 @@ export default class KnexUserRepository implements UserRepositoryInterface {
     if (result) {
       return this.entityFromRawData(result);
     }
-    throw new Error('User not found');
+    throw Boom.boomify(new Error(`User with id ${id} not found`), {
+      statusCode: 404,
+      data: `User with id ${id} not found`
+    })
   }
 
   public async findOneBy(key: string, value: string | number | null): Promise<User | null> {

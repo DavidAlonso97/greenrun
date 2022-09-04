@@ -17,10 +17,8 @@ export default class GetUsersBalanceHandler {
   ) {}
 
   public async execute(command: GetUsersBalanceQuery): Promise<number> {
-    var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-    if (!user) {
-      throw new Error('Entity not found');
-    }
+    await this.userRepository.findOneByIdOrFail(command.getUserId());
+
     const result = await this.transactionRepository.findBy(command.getParams());
     let balance = 0;
     for (let transactionIndex = 0; transactionIndex < result.length; transactionIndex++) {

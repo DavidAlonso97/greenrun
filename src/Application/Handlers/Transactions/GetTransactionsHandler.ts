@@ -13,10 +13,7 @@ export default class GetTransactionsHandler {
   ) {}
 
   public async execute(command: GetTransactionQuery): Promise<Transaction[]> {
-    var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-    if (!user) {
-      throw new Error('Entity not found');
-    }
+    await this.userRepository.findOneByIdOrFail(command.getUserId());
     return await this.transactionRepository.findBy(command.getParams());
   }
 }

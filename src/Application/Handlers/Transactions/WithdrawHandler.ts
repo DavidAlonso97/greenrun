@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import TransactionService from '../../../Application/Services/Transactions/TransactionsService';
@@ -18,14 +19,14 @@ export default class WithdrawHandler {
 
   public async execute(command: DepositCommand): Promise<void> {
     var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-    if (!user) {
-      throw new Error('Entity not found');
-    }
 
     let userAvailableMoney = await this.getUsersBalanceHandler.execute(new GetUsersBalanceQuery(user.getId()));
 
     if (userAvailableMoney < command.getAmount()) {
-      throw new Error('Not enought money available for withdraw that specific ammount');
+      throw Boom.boomify(new Error('Not enought money available for withdraw that specific ammount'), {
+        statusCode: 409,
+        data: 'Not enought money available for withdraw that specific ammount'
+      })
     }
 
     this.transactionService.generateTransaction(

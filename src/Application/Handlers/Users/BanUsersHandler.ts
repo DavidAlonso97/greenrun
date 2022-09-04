@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import BanUsersCommand from '../../Commands/Users/BanUsersCommand';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
@@ -12,7 +13,10 @@ export default class UpdateUsersHandler {
   public async execute(command: BanUsersCommand): Promise<void> {
     var user = await this.userRepository.findOneByIdOrFail(command.getId());
     if (user.role === USER_ROLES.ADMIN) {
-      throw new Error('Admins do not have permissions to ban others admins');
+      throw Boom.boomify(new Error('Admins do not have permissions to ban others admins'), {
+        statusCode: 409,
+        data: 'Admins do not have permissions to ban others admins'
+      })
     }
     user.setUserState(USER_STATUSES.BLOCKED);
     this.userRepository.update(user);

@@ -1,4 +1,5 @@
 import { Request } from '@hapi/hapi';
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import { adminUpdateUsersSchema, updateUsersSchema } from '../../../Http/Validators/Schemas/Users/UpdateUsersSchema';
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
@@ -39,7 +40,10 @@ export default class UpdateUsersAdapter {
     }
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw Boom.boomify(error, {
+        statusCode: 412,
+        data: error.details[0].message
+      })
     }
 
     return new UpdateUsersCommand(

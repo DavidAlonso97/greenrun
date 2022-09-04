@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import BetRepositoryInterface from '../../../Domain/Interfaces/Repositories/BetRepositoryInterface';
 import { injectable } from 'inversify';
 import databaseConnection from '../DatabaseConnection';
@@ -19,7 +20,10 @@ export default class KnexBetRepository implements BetRepositoryInterface {
     if (result) {
       return result;
     }
-    throw new Error('Bet not found');
+    throw Boom.boomify(new Error(`Bet with id ${id} not found`), {
+      statusCode: 404,
+      data: `Bet with id ${id} not found`
+    })
   }
 
   public async findBy(params: BetParamsInterface): Promise<Bet[]> {

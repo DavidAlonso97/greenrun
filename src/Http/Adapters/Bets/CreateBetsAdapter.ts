@@ -1,4 +1,5 @@
 import { Request } from '@hapi/hapi';
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
@@ -14,7 +15,10 @@ export default class CreateBetsAdapter {
     const error = this.validator.validate(body, createBetsSchema);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw Boom.boomify(error, {
+        statusCode: 412,
+        data: error.details[0].message
+      })
     }
 
     return new CreateBetsCommand(body['bet_option'], body['sport'], body['name'], body['event_id'], body['odd']);

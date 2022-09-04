@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import BetRepositoryInterface from '../../../Domain/Interfaces/Repositories/BetRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
@@ -19,7 +20,10 @@ export default class ResultBetHandler {
   public async execute(command: ResultBetsCommand): Promise<void> {
     let bet = await this.betRepository.findOneByIdOrFail(command.getId());
     if (bet.status !== BET_STATUSES.ACTIVE) {
-      throw new Error('Status is not active');
+      throw Boom.boomify(new Error('Status is not active'), {
+        statusCode: 409,
+        data: 'Status is not active'
+      })
     }
     bet.status = BET_STATUSES.SETTLED;
     bet.result = command.getResult();

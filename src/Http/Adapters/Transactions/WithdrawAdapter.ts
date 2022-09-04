@@ -1,4 +1,5 @@
 import { Request } from '@hapi/hapi';
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
@@ -15,7 +16,10 @@ export default class WithdrawAdapter {
     const error = this.validator.validate(body, withdrawSchema);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw Boom.boomify(error, {
+        statusCode: 412,
+        data: error.details[0].message
+      })
     }
 
     return new WithdrawCommand(body['user_id'], body['amount']);

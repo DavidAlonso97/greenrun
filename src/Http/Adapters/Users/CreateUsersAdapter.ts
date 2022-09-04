@@ -1,4 +1,5 @@
 import { Request } from '@hapi/hapi';
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import CreateUsersCommand from '../../../Application/Commands/Users/CreateUsersCommand';
 import bcrypt from 'bcrypt';
@@ -15,7 +16,10 @@ export default class CreateUsersAdapter {
     const error = this.validator.validate(body, createUsersSchema);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw Boom.boomify(error, {
+        statusCode: 412,
+        data: error.details[0].message
+      })
     }
 
     return new CreateUsersCommand(

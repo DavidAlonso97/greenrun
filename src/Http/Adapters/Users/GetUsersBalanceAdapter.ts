@@ -1,4 +1,5 @@
 import { Request } from '@hapi/hapi';
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import { getUsersSchema } from '../../../Http/Validators/Schemas/Users/GetUsersSchema';
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
@@ -13,7 +14,10 @@ export default class GetUsersBalanceAdapter {
     const error = this.validator.validate(params, getUsersSchema);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw Boom.boomify(error, {
+        statusCode: 412,
+        data: error.details[0].message
+      })
     }
 
     return new GetUsersBalanceQuery(params.user_id);

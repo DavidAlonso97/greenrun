@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import UpdateUsersCommand from '../../Commands/Users/UpdateUsersCommand';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
@@ -11,7 +12,10 @@ export default class UpdateUsersHandler {
   public async execute(command: UpdateUsersCommand): Promise<void> {
     var user = await this.userRepository.findOneByIdOrFail(command.getId());
     if (command.isFromAdmin() && user.role === USER_ROLES.ADMIN) {
-      throw new Error('Admins do not have permissions to edit others admins data');
+      throw Boom.boomify(new Error('Admins do not have permissions to edit others admins data'), {
+        statusCode: 409,
+        data: 'Admins do not have permissions to edit others admins data'
+      })
     }
     user.setFirstName(command.getFirstName());
     user.setLastName(command.getLastName());

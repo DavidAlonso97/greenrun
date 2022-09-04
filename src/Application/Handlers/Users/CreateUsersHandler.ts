@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import User from '../../../Domain/Entities/User';
 import CreateUsersCommand from '../../Commands/Users/CreateUsersCommand';
@@ -9,17 +10,23 @@ export default class CreateUsersHandler {
   public constructor(@inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface) {}
 
   public async execute(command: CreateUsersCommand): Promise<void> {
-    const existentUserWithSameUsername = await this.userRepository.findOneBy('username', command.getUsername());
-    if (existentUserWithSameUsername) {
-      throw new Error('Duplicated entity with same username: ' + command.getUsername());
+    if (await this.userRepository.findOneBy('username', command.getUsername())) {
+      throw Boom.boomify(new Error('Duplicated entity with same username: ' + command.getUsername()), {
+        statusCode: 409,
+        data: 'Duplicated entity with same username: ' + command.getUsername()
+      })
     }
-    const existentUserWithSameEmail = await this.userRepository.findOneBy('email', command.getEmail());
-    if (existentUserWithSameEmail) {
-      throw new Error('Duplicated entity  with same email: ' + command.getEmail());
+    if (await this.userRepository.findOneBy('email', command.getEmail())) {
+      throw Boom.boomify(new Error('Duplicated entity  with same email: ' + command.getEmail()), {
+        statusCode: 409,
+        data: 'Duplicated entity  with same email: ' + command.getEmail()
+      })
     }
-    const existentUserWithSameDocumentId = await this.userRepository.findOneBy('document_id', command.getDocumentId());
-    if (existentUserWithSameDocumentId) {
-      throw new Error('Duplicated entity  with same document id: ' + command.getDocumentId());
+    if (await this.userRepository.findOneBy('document_id', command.getDocumentId())) {
+      throw Boom.boomify(new Error('Duplicated entity  with same document id: ' + command.getDocumentId()), {
+        statusCode: 409,
+        data: 'Duplicated entity  with same document id: ' + command.getDocumentId()
+      })
     }
     const user = new User(
       command.getRole(),

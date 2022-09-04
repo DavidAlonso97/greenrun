@@ -1,4 +1,5 @@
 import { Request } from '@hapi/hapi';
+import Boom from '@hapi/boom';
 import { inject, injectable } from 'inversify';
 import { loginUserSchema } from '../../Validators/Schemas/Auth/LoginUserSchema';
 import LoginUsersCommand from '../../../Application/Commands/Auth/LoginUsersCommand';
@@ -13,7 +14,10 @@ export default class LoginUsersAdapter {
     const error = this.validator.validate(body, loginUserSchema);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw Boom.boomify(error, {
+        statusCode: 412,
+        data: error.details[0].message
+      })
     }
 
     return new LoginUsersCommand(body['username'], body['password']);
