@@ -13,3 +13,18 @@ export const getTransactionSchema = Joi.object({
     .only()
     .required(),
 });
+
+export const getTransactionResultSchema = Joi.array().items(
+  {
+    id: Joi.number(),
+    user_id:Joi.number(),
+    amount: Joi.number(),
+    category: Joi.string().alphanum(),
+    status: Joi.string().alphanum().allow().only(),
+    user_bet_id: Joi.number(),
+    created_at: Joi.string(),
+    updated_at: Joi.string(),
+    deleted: Joi.boolean(),
+    deleted_at: Joi.string(),
+  }
+)

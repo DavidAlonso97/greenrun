@@ -1,27 +1,41 @@
-import 'reflect-metadata';
 import Hapi from '@hapi/hapi';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
-import HapiSwagger from 'hapi-swagger';
-import CreateUsersAction from './Http/Actions/Users/CreateUsersAction';
-import DIContainer from './Infrastructure/DI/di.config';
-import GetUsersAction from './Http/Actions/Users/GetUsersAction';
-import UpdateUserAction from './Http/Actions/Users/UpdateUsersAction';
-import BanUsersAction from './Http/Actions/Users/BanUsersAction';
-import LoginUsersAction from './Http/Actions/Auth/LoginUsersAction';
 import dotenv from 'dotenv';
+import HapiSwagger from 'hapi-swagger';
+import Joi from 'joi';
+import 'reflect-metadata';
+import LoginUsersAction from './Http/Actions/Auth/LoginUsersAction';
 import CreateBetsAction from './Http/Actions/Bets/CreateBetsAction';
-import PlaceBetsAction from './Http/Actions/Bets/PlaceBetsAction';
 import GetBetsAction from './Http/Actions/Bets/GetBetsAction';
-import DepositAction from './Http/Actions/Transactions/DepositAction';
-import WithdrawAction from './Http/Actions/Transactions/WithdrawAction';
-import GetTransactionsAction from './Http/Actions/Transactions/GetTransactionsAction';
-import GetUsersBalanceAction from './Http/Actions/Users/GetUsersBalanceAction';
-import UpdateBetsAction from './Http/Actions/Bets/UpdateBetsAction';
+import PlaceBetsAction from './Http/Actions/Bets/PlaceBetsAction';
 import ResultBetsAction from './Http/Actions/Bets/ResultBetsAction';
+import UpdateBetsAction from './Http/Actions/Bets/UpdateBetsAction';
+import DepositAction from './Http/Actions/Transactions/DepositAction';
+import GetTransactionsAction from './Http/Actions/Transactions/GetTransactionsAction';
+import WithdrawAction from './Http/Actions/Transactions/WithdrawAction';
+import BanUsersAction from './Http/Actions/Users/BanUsersAction';
+import CreateUsersAction from './Http/Actions/Users/CreateUsersAction';
+import GetUsersAction from './Http/Actions/Users/GetUsersAction';
+import GetUsersBalanceAction from './Http/Actions/Users/GetUsersBalanceAction';
+import UpdateUserAction from './Http/Actions/Users/UpdateUsersAction';
 import { AuthMiddlewareInterface } from './Http/Middlewares/AuthMiddlewareInterface';
-import { INTERFACES } from './Infrastructure/DI/Interfaces.types';
 import ProtectedRoutes from './Http/Middlewares/ProtectedRoutes';
+import { loginUserSchema } from './Http/Validators/Schemas/Auth/LoginUserSchema';
+import { createBetsSchema } from './Http/Validators/Schemas/Bets/CreateBetsSchema';
+import { getBetsResultSchema, getBetsSchema } from './Http/Validators/Schemas/Bets/GetBetsSchema';
+import { placeBetsSchema } from './Http/Validators/Schemas/Bets/PlaceBetsAdapter';
+import { resultBetsSchema } from './Http/Validators/Schemas/Bets/ResultBetsSchema';
+import { updateBetsSchema } from './Http/Validators/Schemas/Bets/UpdateBetsSchema';
+import { depositSchema } from './Http/Validators/Schemas/Transactions/DepositSchema';
+import { getTransactionResultSchema, getTransactionSchema } from './Http/Validators/Schemas/Transactions/GetTransactionSchema';
+import { withdrawSchema } from './Http/Validators/Schemas/Transactions/WithdrawSchema';
+import { banUsersSchema } from './Http/Validators/Schemas/Users/BanUsersSchema';
+import { createUsersSchema, getUsersResultSchema } from './Http/Validators/Schemas/Users/CreateUsersSchema';
+import { getUsersSchema } from './Http/Validators/Schemas/Users/GetUsersSchema';
+import { updateUsersSchema } from './Http/Validators/Schemas/Users/UpdateUsersSchema';
+import DIContainer from './Infrastructure/DI/di.config';
+import { INTERFACES } from './Infrastructure/DI/Interfaces.types';
 
 class Server {
   private loginUserAction: LoginUsersAction;
@@ -108,72 +122,313 @@ class Server {
       {
         method: 'POST',
         path: this.loginUserAction.ROUTE_PATH,
-        handler: this.loginUserAction.execute,
+        options: {
+          handler: this.loginUserAction.execute,
+          tags: ['api', 'auth'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Login successfully',
+                  'schema': Joi.object().keys({
+                    token: 'jwt'
+                  })
+                },
+                '400': {
+                  'description': 'BadRequest'
+                },
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: loginUserSchema }
+        }
       },
       {
         method: 'POST',
         path: this.createUserAction.ROUTE_PATH,
-        handler: this.createUserAction.execute,
+        options: {
+          handler: this.createUserAction.execute,
+          tags: ['api', 'users'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: createUsersSchema }
+        }
       },
       {
         method: 'GET',
         path: this.getUsersAction.ROUTE_PATH,
-        handler: this.getUsersAction.execute,
+        options: {
+          handler: this.getUsersAction.execute,
+          tags: ['api', 'users'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Retreived data successfully',
+                  'schema': Joi.array().items(getUsersResultSchema)
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+        }
       },
       {
         method: 'PUT',
         path: this.updateUsersAction.ROUTE_PATH,
-        handler: this.updateUsersAction.execute,
+        options: {
+          handler: this.updateUsersAction.execute,
+          tags: ['api', 'users'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Updated data successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: updateUsersSchema }
+        }
       },
       {
         method: 'PUT',
         path: this.banUsersAction.ROUTE_PATH,
-        handler: this.banUsersAction.execute,
+        options: {
+          handler: this.banUsersAction.execute,
+          tags: ['api', 'users'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Baned user successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: banUsersSchema }
+        }
       },
       {
         method: 'POST',
         path: this.createBetsAction.ROUTE_PATH,
-        handler: this.createBetsAction.execute,
+        options: {
+          handler: this.createBetsAction.execute,
+          tags: ['api', 'bets'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Created bet successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: createBetsSchema }
+        }
+
       },
       {
         method: 'PUT',
         path: this.updateBetsAction.ROUTE_PATH,
-        handler: this.updateBetsAction.execute,
+        options: {
+          handler: this.updateBetsAction.execute,
+          tags: ['api', 'bets'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Updated bet successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: updateBetsSchema }
+        }
       },
       {
         method: 'PUT',
         path: this.resultBetsAction.ROUTE_PATH,
-        handler: this.resultBetsAction.execute,
+        options: {
+          handler: this.resultBetsAction.execute,
+          tags: ['api', 'bets'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Setted a result on a bet successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: resultBetsSchema }
+        }
       },
       {
         method: 'GET',
         path: this.getBetsAction.ROUTE_PATH,
-        handler: this.getBetsAction.execute,
+        options: {
+          handler: this.getBetsAction.execute,
+          tags: ['api', 'bets'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Retreived information about bets successfully',
+                  'schema': getBetsResultSchema
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+            }
+          },
+          validate: { query: getBetsSchema }
+        }
       },
       {
         method: 'POST',
         path: this.placeBetsAction.ROUTE_PATH,
-        handler: this.placeBetsAction.execute,
+        options: {
+          handler: this.placeBetsAction.execute,
+          tags: ['api', 'user_bets'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Placed a user bet successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: placeBetsSchema }
+        }
       },
       {
         method: 'POST',
         path: this.depositAction.ROUTE_PATH,
-        handler: this.depositAction.execute,
+        options: {
+          handler: this.depositAction.execute,
+          tags: ['api', 'transactions'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Deposited some amount of money on an account successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: depositSchema }
+        }
       },
       {
         method: 'POST',
         path: this.withdrawAction.ROUTE_PATH,
-        handler: this.withdrawAction.execute,
+        options: {
+          handler: this.withdrawAction.execute,
+          tags: ['api', 'transactions'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Withdrawed some amount of money from an account successfully',
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+              payloadType: 'json'
+            }
+          },
+          validate: { payload: withdrawSchema }
+        }
       },
       {
         method: 'GET',
         path: this.getTransactionsAction.ROUTE_PATH,
-        handler: this.getTransactionsAction.execute,
+        options: {
+          handler: this.getTransactionsAction.execute,
+          tags: ['api', 'transactions'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Retreived information about transactions successfully',
+                  'schema': getTransactionResultSchema
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+            }
+          },
+          validate: { query: getTransactionSchema }
+        }
       },
       {
         method: 'GET',
         path: this.getUsersBalanceAction.ROUTE_PATH,
-        handler: this.getUsersBalanceAction.execute,
+        options: {
+          handler: this.getUsersBalanceAction.execute,
+          tags: ['api', 'users'],
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  'description': 'Retreived information about users balance successfully',
+                  'schema': Joi.object().keys({
+                    amount: Joi.number()
+                  })
+                },
+                '400': {
+                  'description': 'BadRequest'
+                }
+              },
+            }
+          },
+          validate: { query: getUsersSchema }
+        }
       },
     ]);
 
