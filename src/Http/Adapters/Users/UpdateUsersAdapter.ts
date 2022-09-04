@@ -42,8 +42,8 @@ export default class UpdateUsersAdapter {
     if (error) {
       throw Boom.boomify(error, {
         statusCode: 412,
-        data: error.details[0].message
-      })
+        data: error.details[0].message,
+      });
     }
 
     return new UpdateUsersCommand(

@@ -16,8 +16,8 @@ export default class GetUsersBalanceAdapter {
     if (error) {
       throw Boom.boomify(error, {
         statusCode: 412,
-        data: error.details[0].message
-      })
+        data: error.details[0].message,
+      });
     }
 
     return new GetUsersBalanceQuery(params.user_id);

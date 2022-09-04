@@ -13,20 +13,20 @@ export default class CreateUsersHandler {
     if (await this.userRepository.findOneBy('username', command.getUsername())) {
       throw Boom.boomify(new Error('Duplicated entity with same username: ' + command.getUsername()), {
         statusCode: 409,
-        data: 'Duplicated entity with same username: ' + command.getUsername()
-      })
+        data: 'Duplicated entity with same username: ' + command.getUsername(),
+      });
     }
     if (await this.userRepository.findOneBy('email', command.getEmail())) {
       throw Boom.boomify(new Error('Duplicated entity  with same email: ' + command.getEmail()), {
         statusCode: 409,
-        data: 'Duplicated entity  with same email: ' + command.getEmail()
-      })
+        data: 'Duplicated entity  with same email: ' + command.getEmail(),
+      });
     }
     if (await this.userRepository.findOneBy('document_id', command.getDocumentId())) {
       throw Boom.boomify(new Error('Duplicated entity  with same document id: ' + command.getDocumentId()), {
         statusCode: 409,
-        data: 'Duplicated entity  with same document id: ' + command.getDocumentId()
-      })
+        data: 'Duplicated entity  with same document id: ' + command.getDocumentId(),
+      });
     }
     const user = new User(
       command.getRole(),

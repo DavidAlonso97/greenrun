@@ -25,8 +25,8 @@ export default class WithdrawHandler {
     if (userAvailableMoney < command.getAmount()) {
       throw Boom.boomify(new Error('Not enought money available for withdraw that specific ammount'), {
         statusCode: 409,
-        data: 'Not enought money available for withdraw that specific ammount'
-      })
+        data: 'Not enought money available for withdraw that specific ammount',
+      });
     }
 
     this.transactionService.generateTransaction(

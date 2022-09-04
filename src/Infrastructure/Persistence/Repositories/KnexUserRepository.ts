@@ -21,8 +21,8 @@ export default class KnexUserRepository implements UserRepositoryInterface {
     }
     throw Boom.boomify(new Error(`User with id ${id} not found`), {
       statusCode: 404,
-      data: `User with id ${id} not found`
-    })
+      data: `User with id ${id} not found`,
+    });
   }
 
   public async findOneBy(key: string, value: string | number | null): Promise<User | null> {

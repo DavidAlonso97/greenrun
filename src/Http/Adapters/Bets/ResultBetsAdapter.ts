@@ -25,8 +25,8 @@ export default class ResultBetsAdapter {
     if (error) {
       throw Boom.boomify(error, {
         statusCode: 412,
-        data: error.details[0].message
-      })
+        data: error.details[0].message,
+      });
     }
 
     return new ResultBetsCommand(params.id, body['result']);

@@ -22,8 +22,8 @@ export default class ResultBetHandler {
     if (bet.status !== BET_STATUSES.ACTIVE) {
       throw Boom.boomify(new Error('Status is not active'), {
         statusCode: 409,
-        data: 'Status is not active'
-      })
+        data: 'Status is not active',
+      });
     }
     bet.status = BET_STATUSES.SETTLED;
     bet.result = command.getResult();

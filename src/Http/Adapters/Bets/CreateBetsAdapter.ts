@@ -17,8 +17,8 @@ export default class CreateBetsAdapter {
     if (error) {
       throw Boom.boomify(error, {
         statusCode: 412,
-        data: error.details[0].message
-      })
+        data: error.details[0].message,
+      });
     }
 
     return new CreateBetsCommand(body['bet_option'], body['sport'], body['name'], body['event_id'], body['odd']);

@@ -16,8 +16,8 @@ export default class LoginUsersHandler {
     if (!user) {
       throw Boom.boomify(new Error(`User with username ${command.getUsername()} not found`), {
         statusCode: 404,
-        data: `User with username ${command.getUsername()} not found`
-      })
+        data: `User with username ${command.getUsername()} not found`,
+      });
     }
 
     return bcrypt.compare(command.getPassword(), user.getPassword()) ? user : null;

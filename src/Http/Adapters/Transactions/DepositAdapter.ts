@@ -18,8 +18,8 @@ export default class DepositAdapter {
     if (error) {
       throw Boom.boomify(error, {
         statusCode: 412,
-        data: error.details[0].message
-      })
+        data: error.details[0].message,
+      });
     }
 
     return new DepositCommand(body['user_id'], body['amount']);

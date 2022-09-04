@@ -25,8 +25,8 @@ export default class UpdateBetsAdapter {
     if (error) {
       throw Boom.boomify(error, {
         statusCode: 412,
-        data: error.details[0].message
-      })
+        data: error.details[0].message,
+      });
     }
 
     return new UpdateBetsCommand(params.id, body['status'], body['odd']);

@@ -119,19 +119,19 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Login successfully',
-                  'schema': Joi.object().keys({
-                    token: 'jwt'
-                  })
+                  description: 'Login successfully',
+                  schema: Joi.object().keys({
+                    token: 'jwt',
+                  }),
                 },
                 '400': {
-                  'description': 'BadRequest'
+                  description: 'BadRequest',
                 },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'POST',
@@ -143,13 +143,13 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'GET',
@@ -161,17 +161,17 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Retreived data successfully',
-                  'schema': Joi.array().items(getUsersResultSchema)
+                  description: 'Retreived data successfully',
+                  schema: Joi.array().items(getUsersResultSchema),
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'PUT',
@@ -183,16 +183,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Updated data successfully',
+                  description: 'Updated data successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'PUT',
@@ -204,16 +204,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Baned user successfully',
+                  description: 'Baned user successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'POST',
@@ -225,17 +225,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Created bet successfully',
+                  description: 'Created bet successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
-
+        },
       },
       {
         method: 'PUT',
@@ -247,16 +246,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Updated bet successfully',
+                  description: 'Updated bet successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'PUT',
@@ -268,16 +267,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Setted a result on a bet successfully',
+                  description: 'Setted a result on a bet successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'GET',
@@ -289,16 +288,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Retreived information about bets successfully',
-                  'schema': getBetsResultSchema
+                  description: 'Retreived information about bets successfully',
+                  schema: getBetsResultSchema,
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-            }
+            },
           },
-        }
+        },
       },
       {
         method: 'POST',
@@ -310,16 +309,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Placed a user bet successfully',
+                  description: 'Placed a user bet successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'POST',
@@ -331,16 +330,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Deposited some amount of money on an account successfully',
+                  description: 'Deposited some amount of money on an account successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'POST',
@@ -352,16 +351,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Withdrawed some amount of money from an account successfully',
+                  description: 'Withdrawed some amount of money from an account successfully',
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-              payloadType: 'json'
-            }
+              payloadType: 'json',
+            },
           },
-        }
+        },
       },
       {
         method: 'GET',
@@ -373,16 +372,16 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Retreived information about transactions successfully',
-                  'schema': getTransactionResultSchema
+                  description: 'Retreived information about transactions successfully',
+                  schema: getTransactionResultSchema,
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-            }
+            },
           },
-        }
+        },
       },
       {
         method: 'GET',
@@ -394,18 +393,18 @@ class Server {
             'hapi-swagger': {
               responses: {
                 '200': {
-                  'description': 'Retreived information about users balance successfully',
-                  'schema': Joi.object().keys({
-                    amount: Joi.number()
-                  })
+                  description: 'Retreived information about users balance successfully',
+                  schema: Joi.object().keys({
+                    amount: Joi.number(),
+                  }),
                 },
                 '400': {
-                  'description': 'BadRequest'
-                }
+                  description: 'BadRequest',
+                },
               },
-            }
+            },
           },
-        }
+        },
       },
     ]);
 

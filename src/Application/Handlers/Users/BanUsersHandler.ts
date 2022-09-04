@@ -15,8 +15,8 @@ export default class UpdateUsersHandler {
     if (user.role === USER_ROLES.ADMIN) {
       throw Boom.boomify(new Error('Admins do not have permissions to ban others admins'), {
         statusCode: 409,
-        data: 'Admins do not have permissions to ban others admins'
-      })
+        data: 'Admins do not have permissions to ban others admins',
+      });
     }
     user.setUserState(USER_STATUSES.BLOCKED);
     this.userRepository.update(user);

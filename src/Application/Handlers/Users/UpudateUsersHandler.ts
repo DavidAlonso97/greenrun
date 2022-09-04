@@ -14,8 +14,8 @@ export default class UpdateUsersHandler {
     if (command.isFromAdmin() && user.role === USER_ROLES.ADMIN) {
       throw Boom.boomify(new Error('Admins do not have permissions to edit others admins data'), {
         statusCode: 409,
-        data: 'Admins do not have permissions to edit others admins data'
-      })
+        data: 'Admins do not have permissions to edit others admins data',
+      });
     }
     user.setFirstName(command.getFirstName());
     user.setLastName(command.getLastName());

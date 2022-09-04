@@ -22,8 +22,8 @@ export default class KnexBetRepository implements BetRepositoryInterface {
     }
     throw Boom.boomify(new Error(`Bet with id ${id} not found`), {
       statusCode: 404,
-      data: `Bet with id ${id} not found`
-    })
+      data: `Bet with id ${id} not found`,
+    });
   }
 
   public async findBy(params: BetParamsInterface): Promise<Bet[]> {
