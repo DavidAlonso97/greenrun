@@ -7,9 +7,6 @@ export const createBetsSchema = Joi.object(
         sport: Joi.string()
             .alphanum()
             .required(),
-        status: Joi.string()
-            .alphanum()
-            .required(),
         name: Joi.string()
             .alphanum()
             .required(),

@@ -1,6 +1,7 @@
 import * as Joi from 'joi';
+import { USER_ROLES } from '../../../../Domain/Interfaces/UserRoles';
 export const createUsersSchema = Joi.object({
-    role: Joi.string().alphanum().required(),
+    role: Joi.string().alphanum().allow(USER_ROLES.ADMIN, USER_ROLES.USER).only().required(),
     first_name: Joi.string().alphanum().required(),
     last_name: Joi.string().alphanum().required(),
     phone: Joi.string().alphanum().required(),
@@ -13,6 +14,5 @@ export const createUsersSchema = Joi.object({
     country_id: Joi.number().required(),
     city: Joi.string().alphanum().required(),
     category: Joi.string().alphanum().required(),
-    document_id: Joi.number().required(),
-    user_state: Joi.string().alphanum().required(),
+    document_id: Joi.number().required()
 })

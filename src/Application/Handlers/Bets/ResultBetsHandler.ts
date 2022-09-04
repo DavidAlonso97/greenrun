@@ -17,7 +17,7 @@ export default class ResultBetHandler {
   ) { }
 
   public async execute(command: ResultBetsCommand): Promise<void> {
-    let bet = await this.betRepository.findOneById(command.getId());
+    let bet = await this.betRepository.findOneByIdOrFail(command.getId());
     if (bet.status !== BET_STATUSES.ACTIVE){
       throw new Error('Status is not active');
     }

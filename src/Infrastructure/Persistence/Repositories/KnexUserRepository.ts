@@ -13,14 +13,20 @@ export default class KnexUserRepository implements UserRepositoryInterface {
     return await this.repository().select();
   }
 
-  public async findOneById(id: number): Promise<User> {
+  public async findOneByIdOrFail(id: number): Promise<User> {
     const result = await this.repository().where('id', id).first();
-    return this.entityFromRawData(result);
+    if (result) {
+      return this.entityFromRawData(result);
+    }
+    throw new Error('User not found');
   }
 
-  public async findOneByUsername(username: string): Promise<User> {
-    const result = await this.repository().where('username', username).first();
-    return this.entityFromRawData(result);
+  public async findOneBy(key: string, value: string|number|null): Promise<User | null> {
+    const result = await this.repository().where(key, value).first();
+    if (result) {
+      return this.entityFromRawData(result);
+    }
+    return null;
   }
 
   public async persist(user: User): Promise<number> {
@@ -33,10 +39,10 @@ export default class KnexUserRepository implements UserRepositoryInterface {
 
   public async delete(user: User): Promise<boolean> {
     const result = await this.repository().where('id', user.getId())
-    .update({
-      deleted: true,
-      deleted_at: new Date()
-    })
+      .update({
+        deleted: true,
+        deleted_at: new Date()
+      })
 
     return result && result.affected === 1;
   }

@@ -65,8 +65,9 @@ class Server {
     dotenv.config();
 
     var authMiddleware = this.authMiddleware;
-    server.ext('onRequest', async function (request, h) {
-      if (request.path !== this.loginUserAction.ROUTE_PATH) {
+    var loginUserAction = this.loginUserAction;
+    server.ext('onRequest', async function (request, h){
+      if (request.path !== loginUserAction.ROUTE_PATH) {
         request = await authMiddleware.check(request);
       }
       return h.continue;

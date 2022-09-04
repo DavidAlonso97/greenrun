@@ -10,7 +10,19 @@ export default class CreateUsersHandler {
     @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface
   ) { }
 
-  public execute(command: CreateUsersCommand): void {
+  public async execute(command: CreateUsersCommand): Promise<void> {
+    const existentUserWithSameUsername = await this.userRepository.findOneBy('username', command.getUsername());
+    if (existentUserWithSameUsername) {
+      throw new Error('Duplicated entity with same username: ' + command.getUsername());
+    }
+    const existentUserWithSameEmail = await this.userRepository.findOneBy('email', command.getEmail());
+    if (existentUserWithSameEmail) {
+      throw new Error('Duplicated entity  with same email: ' + command.getEmail());
+    }
+    const existentUserWithSameDocumentId = await this.userRepository.findOneBy('document_id', command.getDocumentId());
+    if (existentUserWithSameDocumentId) {
+      throw new Error('Duplicated entity  with same document id: ' + command.getDocumentId());
+    }
     const user = new User(
       command.getRole(),
       command.getFirstName(),

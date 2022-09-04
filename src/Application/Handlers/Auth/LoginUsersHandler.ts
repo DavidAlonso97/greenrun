@@ -12,7 +12,7 @@ export default class LoginUsersHandler {
   ) { }
 
   public async execute(command: LoginUsersCommand): Promise<User|null> {
-    let user = await this.userRepository.findOneByUsername(command.getUsername());
+    let user = await this.userRepository.findOneBy('username', command.getUsername());
     
     if (!user) {
       throw new Error('User not found');

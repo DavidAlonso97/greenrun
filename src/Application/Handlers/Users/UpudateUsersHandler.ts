@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import UpdateUsersCommand from '../../Commands/Users/UpdateUsersCommand';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
+import { USER_ROLES } from '../../../Domain/Interfaces/UserRoles';
 
 @injectable()
 export default class UpdateUsersHandler {
@@ -10,8 +11,10 @@ export default class UpdateUsersHandler {
   ) { }
 
   public async execute(command: UpdateUsersCommand): Promise<void> {
-    var user = await this.userRepository.findOneById(command.getId());
-    user.setRole(command.getRole());
+    var user = await this.userRepository.findOneByIdOrFail(command.getId());
+    if (command.isFromAdmin() && user.role === USER_ROLES.ADMIN) {
+      throw new Error('Admins do not have permissions to edit others admins data');
+    }
     user.setFirstName(command.getFirstName());
     user.setLastName(command.getLastName());
     user.setPhone(command.getPhone());

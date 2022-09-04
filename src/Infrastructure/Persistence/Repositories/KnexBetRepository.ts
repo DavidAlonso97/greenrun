@@ -14,8 +14,12 @@ export default class KnexBetRepository implements BetRepositoryInterface {
     return await this.repository();
   }
 
-  public async findOneById(id: number): Promise<Bet> {
-    return await this.repository().where('id', id).first();
+  public async findOneByIdOrFail(id: number): Promise<Bet> {
+    const result =  await this.repository().where('id', id).first();
+    if (result) {
+      return result;
+    }
+    throw new Error('Bet not found');
   }
 
   public async findBy(params: BetParamsInterface): Promise<Bet[]> {

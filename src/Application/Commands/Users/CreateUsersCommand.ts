@@ -13,7 +13,6 @@ export default class CreateUsersCommand {
   public city: string;
   public category: string;
   public document_id: number;
-  public user_state: string;
 
   public constructor(
     role: string,
@@ -30,7 +29,6 @@ export default class CreateUsersCommand {
     city: string,
     category: string,
     document_id: number,
-    user_state: string
   ) {
     this.role = role;
     this.first_name = first_name;
@@ -46,7 +44,6 @@ export default class CreateUsersCommand {
     this.city = city;
     this.category = category;
     this.document_id = document_id;
-    this.user_state = user_state;
   }
 
   public getRole(): string {
@@ -104,9 +101,4 @@ export default class CreateUsersCommand {
   public getDocumentId(): number {
     return this.document_id;
   }
-
-  public getUserState(): string {
-    return this.user_state;
-  }
-
 }

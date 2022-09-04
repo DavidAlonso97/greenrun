@@ -18,8 +18,9 @@ export default class CreateUsersAdapter {
     const error = this.validator.validate(body, createUsersSchema);
 
     if (error) {
-        throw new Error(error.details[0].message);
+      throw new Error(error.details[0].message);
     }
+    
     return new CreateUsersCommand(
       body.role,
       body.first_name,
@@ -27,15 +28,14 @@ export default class CreateUsersAdapter {
       body.phone,
       body.email,
       body.username,
-      bcrypt.hashSync(body.password, 8),//todo defaultSaltRounds
+      bcrypt.hashSync(body.password, Number(process.env.SALT_ROUNDS)),
       body.address,
       body.gender,
       body.birth_date,
       body.country_id,
       body.city,
       body.category,
-      body.document_id,
-      body.user_state
+      body.document_id
     );
   }
 }

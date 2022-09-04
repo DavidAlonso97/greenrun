@@ -23,7 +23,7 @@ export default class AuthMiddleware implements AuthMiddlewareInterface {
             throw new Error('Unauthorized');
         }
         const user_id = await this.redisConection.getConnection().get(token);
-        const user = await this.userRepository.findOneById(Number(user_id));
+        const user = await this.userRepository.findOneByIdOrFail(Number(user_id));
         request['current_user'] = user;
         return request;
     }

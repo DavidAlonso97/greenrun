@@ -4,7 +4,7 @@ import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
 import CreateBetsCommand from '../../../Application/Commands/Bets/CreateBetsCommand';
 import CreateBetsAdapter from '../../Adapters/Bets/CreateBetsAdapter';
 import CreateBetsHandler from '../../../Application/Handlers/Bets/CreateBetsHandler';
-import { USER_ROLES } from '.,./../../Domain/Interfaces/UserRoles';
+import { USER_ROLES } from '../../../Domain/Interfaces/UserRoles';
 
 @injectable()
 export default class CreateBetsAction {

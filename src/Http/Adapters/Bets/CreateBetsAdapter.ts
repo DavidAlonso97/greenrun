@@ -19,11 +19,10 @@ export default class CreateBetsAdapter {
         if (error) {
             throw new Error(error.details[0].message);
         }
-        
+
         return new CreateBetsCommand(
             body.bet_option,
             body.sport,
-            body.status,
             body.name,
             body.event_id,
             body.odd

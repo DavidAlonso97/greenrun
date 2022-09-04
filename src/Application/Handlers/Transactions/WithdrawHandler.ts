@@ -5,19 +5,31 @@ import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/Use
 import DepositCommand from '../../Commands/Transactions/DepositCommand';
 import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionCategories';
 import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
+import GetUsersBalanceQuery from '../../../Application/Commands/Users/GetUsersBalanceQuery';
+import GetUsersBalanceHandler from '../Users/GetUsersBalanceHandler';
 
 @injectable()
 export default class WithdrawHandler {
     public constructor(
         @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
-        @inject(TransactionService) private transactionService: TransactionService
+        @inject(TransactionService) private transactionService: TransactionService,
+        @inject(GetUsersBalanceHandler) private getUsersBalanceHandler: GetUsersBalanceHandler
     ) { }
 
     public async execute(command: DepositCommand): Promise<void> {
-        var user = await this.userRepository.findOneById(command.getUserId());
+        var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
         if (!user) {
             throw new Error('Entity not found');
         }
+
+        let userAvailableMoney = await this.getUsersBalanceHandler.execute(new GetUsersBalanceQuery(
+            user.getId()
+        ));
+
+        if (userAvailableMoney < command.getAmount()) {
+            throw new Error('Not enought money available for withdraw that specific ammount');
+        }
+
         this.transactionService.generateTransaction(
             user.getId(),
             command.getAmount(),
