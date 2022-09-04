@@ -1,16 +1,13 @@
-import { Request } from "@hapi/hapi";
+import { Request } from '@hapi/hapi';
 import { inject, injectable } from 'inversify';
-import ValidatorInterface from "../../../Http/Validators/ValidatorInterface";
-import { INTERFACES } from "../../../Infrastructure/DI/Interfaces.types";
+import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
+import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import GetTransactionQuery from '../../../Application/Commands/Transactions/GetTransactionQuery';
-import { getTransactionSchema } from "../../../Http/Validators/Schemas/Transactions/GetTransactionSchema";
+import { getTransactionSchema } from '../../../Http/Validators/Schemas/Transactions/GetTransactionSchema';
 
 @injectable()
 export default class GetTransactionAdapter {
-  constructor(
-    @inject(INTERFACES.ValidatorInterface) private validator: ValidatorInterface
-  ) {
-  }
+  constructor(@inject(INTERFACES.ValidatorInterface) private validator: ValidatorInterface) {}
 
   public from(request: Request): GetTransactionQuery {
     const params = request.query;
@@ -18,12 +15,9 @@ export default class GetTransactionAdapter {
     const error = this.validator.validate(params, getTransactionSchema);
 
     if (error) {
-        throw new Error(error.details[0].message);
+      throw new Error(error.details[0].message);
     }
 
-    return new GetTransactionQuery(
-      params['user_id'],
-      params['category'],
-    );
+    return new GetTransactionQuery(params['user_id'], params['category']);
   }
 }

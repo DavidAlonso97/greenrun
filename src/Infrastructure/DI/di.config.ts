@@ -118,7 +118,9 @@ DIContainer.bind<GetTransactionsHandler>(GetTransactionsHandler).toSelf();
 
 //Respoitories
 DIContainer.bind<UserRepositoryInterface>(INTERFACES.UserRepositoryInterface).to(KnexUserRepository);
-DIContainer.bind<TransactionRepositoryInterface>(INTERFACES.TransactionRepositoryInterface).to(KnexTransactionRepository);
+DIContainer.bind<TransactionRepositoryInterface>(INTERFACES.TransactionRepositoryInterface).to(
+  KnexTransactionRepository,
+);
 DIContainer.bind<BetRepositoryInterface>(INTERFACES.BetRepositoryInterface).to(KnexBetRepository);
 DIContainer.bind<UserBetRepositoryInterface>(INTERFACES.UserBetRepositoryInterface).to(KnexUserBetRepository);
 

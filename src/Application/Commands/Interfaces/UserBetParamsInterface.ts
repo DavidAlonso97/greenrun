@@ -1,3 +1,3 @@
 export default interface UserBetParamsInterface {
-    bet_id: number|null
+  bet_id: number | null;
 }

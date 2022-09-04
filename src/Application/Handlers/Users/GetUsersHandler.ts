@@ -5,9 +5,7 @@ import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 
 @injectable()
 export default class GetUsersHandler {
-  public constructor(
-    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface
-  ) { }
+  public constructor(@inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface) {}
 
   public async execute(): Promise<User[]> {
     return await this.userRepository.findAll();

@@ -7,16 +7,16 @@ import Transaction from '../../../Domain/Entities/Transaction';
 
 @injectable()
 export default class GetTransactionsHandler {
-    public constructor(
-        @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
-        @inject(INTERFACES.TransactionRepositoryInterface) private transactionRepository: TransactionRepositoryInterface
-    ) { }
+  public constructor(
+    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
+    @inject(INTERFACES.TransactionRepositoryInterface) private transactionRepository: TransactionRepositoryInterface,
+  ) {}
 
-    public async execute(command: GetTransactionQuery): Promise<Transaction[]> {
-        var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-        if (!user) {
-            throw new Error('Entity not found');
-        }
-        return await this.transactionRepository.findBy(command.getParams());
+  public async execute(command: GetTransactionQuery): Promise<Transaction[]> {
+    var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
+    if (!user) {
+      throw new Error('Entity not found');
     }
+    return await this.transactionRepository.findBy(command.getParams());
+  }
 }

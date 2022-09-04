@@ -7,7 +7,7 @@ import databaseConnection from '../DatabaseConnection';
 export default class KnexUserRepository implements UserRepositoryInterface {
   private repository(): any {
     return databaseConnection<User>('users').where('deleted', false);
-  };
+  }
 
   public async findAll(): Promise<User[]> {
     return await this.repository().select();
@@ -21,7 +21,7 @@ export default class KnexUserRepository implements UserRepositoryInterface {
     throw new Error('User not found');
   }
 
-  public async findOneBy(key: string, value: string|number|null): Promise<User | null> {
+  public async findOneBy(key: string, value: string | number | null): Promise<User | null> {
     const result = await this.repository().where(key, value).first();
     if (result) {
       return this.entityFromRawData(result);
@@ -38,11 +38,10 @@ export default class KnexUserRepository implements UserRepositoryInterface {
   }
 
   public async delete(user: User): Promise<boolean> {
-    const result = await this.repository().where('id', user.getId())
-      .update({
-        deleted: true,
-        deleted_at: new Date()
-      })
+    const result = await this.repository().where('id', user.getId()).update({
+      deleted: true,
+      deleted_at: new Date(),
+    });
 
     return result && result.affected === 1;
   }
@@ -63,7 +62,7 @@ export default class KnexUserRepository implements UserRepositoryInterface {
       raw.city,
       raw.category,
       raw.document_id,
-      raw.user_state
+      raw.user_state,
     );
     user.setId(raw.id);
     user.setCreatedAt(raw.created_at);

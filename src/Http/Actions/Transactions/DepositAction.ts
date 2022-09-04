@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { HTTP_CODES } from '../../Enums/HttpStatusCode';
-import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
+import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import DepositCommand from '../../../Application/Commands/Transactions/DepositCommand';
 import DepositAdapter from '../../Adapters/Transactions/DepositAdapter';
 import DepositHandler from '../../../Application/Handlers/Transactions/DepositHandler';
@@ -17,5 +17,5 @@ export default class DepositAction {
     const command: DepositCommand = this.adapter.from(request);
     await this.handler.execute(command);
     return h.response().code(HTTP_CODES.OK);
-  }
+  };
 }

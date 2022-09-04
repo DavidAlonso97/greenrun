@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { HTTP_CODES } from '../../Enums/HttpStatusCode';
-import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
+import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import ResultBetsCommand from '../../../Application/Commands/Bets/ResultBetsCommand';
 import ResultBetsAdapter from '../../Adapters/Bets/ResultBetsAdapter';
 import ResultBetsHandler from '../../../Application/Handlers/Bets/ResultBetsHandler';
@@ -21,5 +21,5 @@ export default class ResultBetsAction {
     const command: ResultBetsCommand = this.adapter.from(request);
     await this.handler.execute(command);
     return h.response().code(HTTP_CODES.OK);
-  }
+  };
 }

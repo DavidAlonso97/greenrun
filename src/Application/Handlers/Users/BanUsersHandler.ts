@@ -7,9 +7,7 @@ import { USER_ROLES } from '../../../Domain/Interfaces/UserRoles';
 
 @injectable()
 export default class UpdateUsersHandler {
-  public constructor(
-    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface
-  ) { }
+  public constructor(@inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface) {}
 
   public async execute(command: BanUsersCommand): Promise<void> {
     var user = await this.userRepository.findOneByIdOrFail(command.getId());

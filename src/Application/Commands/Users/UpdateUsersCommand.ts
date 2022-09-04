@@ -28,7 +28,7 @@ export default class UpdateUsersCommand {
     country_id: number,
     city: string,
     category: string,
-    document_id: number
+    document_id: number,
   ) {
     this.fromAdmin = fromAdmin;
     this.id = id;

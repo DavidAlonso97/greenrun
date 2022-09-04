@@ -10,32 +10,29 @@ import GetUsersBalanceHandler from '../Users/GetUsersBalanceHandler';
 
 @injectable()
 export default class WithdrawHandler {
-    public constructor(
-        @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
-        @inject(TransactionService) private transactionService: TransactionService,
-        @inject(GetUsersBalanceHandler) private getUsersBalanceHandler: GetUsersBalanceHandler
-    ) { }
+  public constructor(
+    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
+    @inject(TransactionService) private transactionService: TransactionService,
+    @inject(GetUsersBalanceHandler) private getUsersBalanceHandler: GetUsersBalanceHandler,
+  ) {}
 
-    public async execute(command: DepositCommand): Promise<void> {
-        var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-        if (!user) {
-            throw new Error('Entity not found');
-        }
-
-        let userAvailableMoney = await this.getUsersBalanceHandler.execute(new GetUsersBalanceQuery(
-            user.getId()
-        ));
-
-        if (userAvailableMoney < command.getAmount()) {
-            throw new Error('Not enought money available for withdraw that specific ammount');
-        }
-
-        this.transactionService.generateTransaction(
-            user.getId(),
-            command.getAmount(),
-            TRANSACCIONS_CATEGORIES.WITHDRAW,
-            TRANSACCIONS_STATUSES.COMPLETED
-        );
-
+  public async execute(command: DepositCommand): Promise<void> {
+    var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
+    if (!user) {
+      throw new Error('Entity not found');
     }
+
+    let userAvailableMoney = await this.getUsersBalanceHandler.execute(new GetUsersBalanceQuery(user.getId()));
+
+    if (userAvailableMoney < command.getAmount()) {
+      throw new Error('Not enought money available for withdraw that specific ammount');
+    }
+
+    this.transactionService.generateTransaction(
+      user.getId(),
+      command.getAmount(),
+      TRANSACCIONS_CATEGORIES.WITHDRAW,
+      TRANSACCIONS_STATUSES.COMPLETED,
+    );
+  }
 }

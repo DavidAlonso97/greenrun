@@ -8,5 +8,5 @@ export default {
     username: DatabaseVariables.username,
     password: DatabaseVariables.password,
     database: DatabaseVariables.database,
-  }
+  },
 };

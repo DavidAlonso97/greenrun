@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { HTTP_CODES } from '../../Enums/HttpStatusCode';
-import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
+import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import BanUsersCommand from '../../../Application/Commands/Users/BanUsersCommand';
 import BanUsersAdapter from '../../Adapters/Users/BanUsersAdapter';
 import BanUsersHandler from '../../../Application/Handlers/Users/BanUsersHandler';
@@ -21,5 +21,5 @@ export default class BanUsersAction {
     const command: BanUsersCommand = this.adapter.from(request);
     await this.handler.execute(command);
     return h.response().code(HTTP_CODES.OK);
-  }
+  };
 }

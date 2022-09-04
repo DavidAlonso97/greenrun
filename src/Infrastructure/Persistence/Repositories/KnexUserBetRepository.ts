@@ -7,8 +7,8 @@ import UserBetParamsInterface from '../../../Application/Commands/Interfaces/Use
 @injectable()
 export default class KnexUserBetRepository implements UserBetRepositoryInterface {
   private repository(): any {
-    return databaseConnection<UserBet>('user_bets').where({deleted: false});
-  };
+    return databaseConnection<UserBet>('user_bets').where({ deleted: false });
+  }
 
   public async findAll(): Promise<UserBet[]> {
     return await this.repository();
@@ -31,11 +31,10 @@ export default class KnexUserBetRepository implements UserBetRepositoryInterface
   }
 
   public async delete(userBet: UserBet): Promise<boolean> {
-    const result = await this.repository().andWhere('id', userBet.getId())
-    .update({
+    const result = await this.repository().andWhere('id', userBet.getId()).update({
       deleted: true,
-      deleted_at: new Date()
-    })
+      deleted_at: new Date(),
+    });
 
     return result && result.affected === 1;
   }

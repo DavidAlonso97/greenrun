@@ -6,9 +6,7 @@ import GetBetsQuery from '../../Commands/Bets/GetBetsQuery';
 
 @injectable()
 export default class GetBetsHandler {
-  public constructor(
-    @inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface
-  ) { }
+  public constructor(@inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface) {}
 
   public async execute(query: GetBetsQuery): Promise<Bet[]> {
     return await this.betRepository.findBy(query.getParams());

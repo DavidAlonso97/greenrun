@@ -1,4 +1,4 @@
 export const BET_RESULT = {
-    WON: 'won',
-    LOST: 'lost'
-  };
+  WON: 'won',
+  LOST: 'lost',
+};

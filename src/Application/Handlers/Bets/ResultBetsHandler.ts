@@ -13,26 +13,26 @@ export default class ResultBetHandler {
   public constructor(
     @inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface,
     @inject(INTERFACES.UserBetRepositoryInterface) private userBetRepository: UserBetRepositoryInterface,
-    @inject(TransactionService) private transactionService: TransactionService
-  ) { }
+    @inject(TransactionService) private transactionService: TransactionService,
+  ) {}
 
   public async execute(command: ResultBetsCommand): Promise<void> {
     let bet = await this.betRepository.findOneByIdOrFail(command.getId());
-    if (bet.status !== BET_STATUSES.ACTIVE){
+    if (bet.status !== BET_STATUSES.ACTIVE) {
       throw new Error('Status is not active');
     }
     bet.status = BET_STATUSES.SETTLED;
     bet.result = command.getResult();
     await this.betRepository.update(bet);
 
-    const userBets = await this.userBetRepository.findBy({bet_id:1});
+    const userBets = await this.userBetRepository.findBy({ bet_id: 1 });
     for (let userBetIndex = 0; userBetIndex < userBets.length; userBetIndex++) {
       this.transactionService.generateTransaction(
         userBets[userBetIndex].user_id,
         userBets[userBetIndex].amount,
         TRANSACCIONS_CATEGORIES.BET,
         TRANSACCIONS_STATUSES.COMPLETED,
-        userBets[userBetIndex].id
+        userBets[userBetIndex].id,
       );
     }
   }

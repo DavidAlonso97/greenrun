@@ -6,9 +6,7 @@ import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 
 @injectable()
 export default class CreateUsersHandler {
-  public constructor(
-    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface
-  ) { }
+  public constructor(@inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface) {}
 
   public async execute(command: CreateUsersCommand): Promise<void> {
     const existentUserWithSameUsername = await this.userRepository.findOneBy('username', command.getUsername());
@@ -37,7 +35,7 @@ export default class CreateUsersHandler {
       command.getCountryId(),
       command.getCity(),
       command.getCategory(),
-      command.getDocumentId()
+      command.getDocumentId(),
     );
     this.userRepository.persist(user);
   }

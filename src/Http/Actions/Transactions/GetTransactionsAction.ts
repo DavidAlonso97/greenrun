@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { HTTP_CODES } from '../../Enums/HttpStatusCode';
-import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
+import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import GetTransactionQuery from '../../../Application/Commands/Transactions/GetTransactionQuery';
 import GetTransactionsAdapter from '../../Adapters/Transactions/GetTransactionsAdapter';
 import GetTransactionsHandler from '../../../Application/Handlers/Transactions/GetTransactionsHandler';
@@ -17,5 +17,5 @@ export default class GetTransactionsAction {
     const command: GetTransactionQuery = this.adapter.from(request);
     const result = await this.handler.execute(command);
     return h.response(result).code(HTTP_CODES.OK);
-  }
+  };
 }

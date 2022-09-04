@@ -20,33 +20,25 @@ export default class PlaceBetsHandler {
     @inject(INTERFACES.UserBetRepositoryInterface) private userBetRepository: UserBetRepositoryInterface,
     @inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface,
     @inject(TransactionService) private transactionService: TransactionService,
-    @inject(GetUsersBalanceHandler) private getUsersBalanceHandler: GetUsersBalanceHandler
-  ) { }
+    @inject(GetUsersBalanceHandler) private getUsersBalanceHandler: GetUsersBalanceHandler,
+  ) {}
 
   public async execute(command: PlaceBetsCommand): Promise<void> {
     var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
     const bets = command.getBets();
-    let userAvailableMoney = await this.getUsersBalanceHandler.execute(new GetUsersBalanceQuery(
-      user.getId()
-    ));
-    
+    let userAvailableMoney = await this.getUsersBalanceHandler.execute(new GetUsersBalanceQuery(user.getId()));
+
     for (let currentBet of bets) {
       if (userAvailableMoney < currentBet.amount) {
         continue;
       }
-      
+
       const bet = await this.betRepository.findOneByIdOrFail(currentBet.betId);
       if (!bet || bet.status !== BET_STATUSES.ACTIVE) {
         continue;
       }
 
-      let userBet = new UserBet(
-        user.getId(),
-        currentBet.betId,
-        bet.odd,
-        currentBet.amount,
-        USER_BET_STATUSES.OPEN,
-      );
+      let userBet = new UserBet(user.getId(), currentBet.betId, bet.odd, currentBet.amount, USER_BET_STATUSES.OPEN);
 
       const userBetId = await this.userBetRepository.persist(userBet);
       this.transactionService.generateTransaction(
@@ -54,7 +46,7 @@ export default class PlaceBetsHandler {
         currentBet.amount,
         TRANSACCIONS_CATEGORIES.BET,
         TRANSACCIONS_STATUSES.COMPLETED,
-        userBetId
+        userBetId,
       );
     }
   }

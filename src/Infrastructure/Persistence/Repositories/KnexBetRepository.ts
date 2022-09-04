@@ -8,14 +8,14 @@ import BetParamsInterface from '../../../Application/Commands/Interfaces/BetPara
 export default class KnexBetRepository implements BetRepositoryInterface {
   private repository(): any {
     return databaseConnection<Bet>('bets');
-  };
+  }
 
   public async findAll(): Promise<Bet[]> {
     return await this.repository();
   }
 
   public async findOneByIdOrFail(id: number): Promise<Bet> {
-    const result =  await this.repository().where('id', id).first();
+    const result = await this.repository().where('id', id).first();
     if (result) {
       return result;
     }
@@ -42,11 +42,10 @@ export default class KnexBetRepository implements BetRepositoryInterface {
   }
 
   public async delete(bet: Bet): Promise<boolean> {
-    const result = await this.repository().where('id', bet.getId())
-    .update({
+    const result = await this.repository().where('id', bet.getId()).update({
       deleted: true,
-      deleted_at: new Date()
-    })
+      deleted_at: new Date(),
+    });
 
     return result && result.affected === 1;
   }

@@ -7,13 +7,11 @@ import User from '../../../Domain/Entities/User';
 
 @injectable()
 export default class LoginUsersHandler {
-  public constructor(
-    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface
-  ) { }
+  public constructor(@inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface) {}
 
-  public async execute(command: LoginUsersCommand): Promise<User|null> {
+  public async execute(command: LoginUsersCommand): Promise<User | null> {
     let user = await this.userRepository.findOneBy('username', command.getUsername());
-    
+
     if (!user) {
       throw new Error('User not found');
     }

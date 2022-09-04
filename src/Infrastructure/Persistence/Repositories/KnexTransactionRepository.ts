@@ -8,7 +8,7 @@ import TransactionParamsInterface from '../../../Application/Commands/Interfaces
 export default class KnexTransactionRepository implements TransactionRepositoryInterface {
   private repository(): any {
     return databaseConnection<Transaction>('transactions').where('deleted', false);
-  };
+  }
 
   public async findAll(): Promise<Transaction[]> {
     return await this.repository();
@@ -19,7 +19,7 @@ export default class KnexTransactionRepository implements TransactionRepositoryI
   }
 
   public async findBy(params: TransactionParamsInterface): Promise<Transaction[]> {
-    let whereClause = {user_id: params.user_id};
+    let whereClause = { user_id: params.user_id };
     if (params.category) {
       whereClause['category'] = params.category;
     }
@@ -31,11 +31,10 @@ export default class KnexTransactionRepository implements TransactionRepositoryI
   }
 
   public async delete(transaction: Transaction): Promise<boolean> {
-    const result = await this.repository().andWhere('id', transaction.getId())
-    .update({
+    const result = await this.repository().andWhere('id', transaction.getId()).update({
       deleted: true,
-      deleted_at: new Date()
-    })
+      deleted_at: new Date(),
+    });
 
     return result && result.affected === 1;
   }

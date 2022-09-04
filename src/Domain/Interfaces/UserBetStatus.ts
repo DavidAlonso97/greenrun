@@ -1,5 +1,5 @@
 export const USER_BET_STATUSES = {
-    OPEN: 'open',
-    WON: 'won',
-    LOST: 'lost'
-  };
+  OPEN: 'open',
+  WON: 'won',
+  LOST: 'lost',
+};

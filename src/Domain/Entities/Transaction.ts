@@ -1,52 +1,46 @@
 export default class Transaction {
-    public id: number;
-    
-    public user_id: number;
-    public amount: number;
-    public category: string;
-    public status: string;
-    public email: string;
-    public user_bet_id: number;
-    
-    public created_at: Date;
+  public id: number;
 
-    public updated_at: Date;
+  public user_id: number;
+  public amount: number;
+  public category: string;
+  public status: string;
+  public email: string;
+  public user_bet_id: number;
 
-    public deleted: boolean;
+  public created_at: Date;
 
-    public deleted_at: Date | null;
+  public updated_at: Date;
 
-    constructor(
-        user_id: number,
-        amount: number,
-        category: string,
-        status: string,
-        user_bet_id: number,
-    ) {
-        this.user_id = user_id;
-        this.amount = amount;
-        this.category = category;
-        this.status = status;
-        this.user_bet_id = user_bet_id;
-        this.created_at = new Date();
-        this.updated_at = new Date();
-        this.deleted = false;
-        this.deleted_at = null;
-    }
+  public deleted: boolean;
 
-    public getId(): number {
-        return this.id;
-    }
+  public deleted_at: Date | null;
 
-    public getAmount(): number {
-        return this.amount;
-    }
+  constructor(user_id: number, amount: number, category: string, status: string, user_bet_id: number) {
+    this.user_id = user_id;
+    this.amount = amount;
+    this.category = category;
+    this.status = status;
+    this.user_bet_id = user_bet_id;
+    this.created_at = new Date();
+    this.updated_at = new Date();
+    this.deleted = false;
+    this.deleted_at = null;
+  }
 
-    public getStatus(): string {
-        return this.status;
-    }
+  public getId(): number {
+    return this.id;
+  }
 
-    public getCategory(): string {
-        return this.category;
-    }
+  public getAmount(): number {
+    return this.amount;
+  }
+
+  public getStatus(): string {
+    return this.status;
+  }
+
+  public getCategory(): string {
+    return this.category;
+  }
 }

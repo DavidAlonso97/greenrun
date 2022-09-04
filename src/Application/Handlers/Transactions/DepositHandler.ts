@@ -8,22 +8,21 @@ import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionSta
 
 @injectable()
 export default class DepositHandler {
-    public constructor(
-        @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
-        @inject(TransactionService) private transactionService: TransactionService
-    ) { }
+  public constructor(
+    @inject(INTERFACES.UserRepositoryInterface) private userRepository: UserRepositoryInterface,
+    @inject(TransactionService) private transactionService: TransactionService,
+  ) {}
 
-    public async execute(command: DepositCommand): Promise<void> {
-        var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
-        if (!user) {
-            throw new Error('Entity not found');
-        }
-        this.transactionService.generateTransaction(
-            user.getId(),
-            command.getAmount(),
-            TRANSACCIONS_CATEGORIES.DEPOSIT,
-            TRANSACCIONS_STATUSES.COMPLETED
-        );
-
+  public async execute(command: DepositCommand): Promise<void> {
+    var user = await this.userRepository.findOneByIdOrFail(command.getUserId());
+    if (!user) {
+      throw new Error('Entity not found');
     }
+    this.transactionService.generateTransaction(
+      user.getId(),
+      command.getAmount(),
+      TRANSACCIONS_CATEGORIES.DEPOSIT,
+      TRANSACCIONS_STATUSES.COMPLETED,
+    );
+  }
 }

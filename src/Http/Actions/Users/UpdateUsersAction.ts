@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { HTTP_CODES } from '../../Enums/HttpStatusCode';
-import { Request, ResponseToolkit, ResponseObject} from "@hapi/hapi";
+import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import UpdateUsersCommand from '../../../Application/Commands/Users/UpdateUsersCommand';
 import UpdateUsersAdapter from '../../Adapters/Users/UpdateUsersAdapter';
 import UpudateUsersHandler from '../../../Application/Handlers/Users/UpudateUsersHandler';
@@ -17,5 +17,5 @@ export default class UpdateUserAction {
     const command: UpdateUsersCommand = this.adapter.from(request);
     await this.handler.execute(command);
     return h.response().code(HTTP_CODES.OK);
-  }
+  };
 }

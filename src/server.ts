@@ -41,8 +41,7 @@ class Server {
   private authMiddleware: AuthMiddlewareInterface;
   private protectedRoutes: ProtectedRoutes;
 
-  constructor(
-  ) {
+  constructor() {
     this.loginUserAction = DIContainer.get<LoginUsersAction>(LoginUsersAction);
     this.createUserAction = DIContainer.get<CreateUsersAction>(CreateUsersAction);
     this.getUsersAction = DIContainer.get<GetUsersAction>(GetUsersAction);
@@ -63,28 +62,34 @@ class Server {
   }
 
   init = async () => {
-
     const server = Hapi.server({
-      port: 3000
+      port: 3000,
     });
 
     const swaggerOptions: HapiSwagger.RegisterOptions = {
       info: {
-        title: 'GreenRun API Documentation'
-      }
+        title: 'GreenRun API Documentation',
+      },
+      securityDefinitions: {
+        Bearer: {
+          type: 'apiKey',
+          name: 'Authorization',
+          in: 'header',
+        },
+      },
     };
 
     const plugins: Array<Hapi.ServerRegisterPluginObject<any>> = [
       {
-        plugin: Inert
+        plugin: Inert,
       },
       {
-        plugin: Vision
+        plugin: Vision,
       },
       {
         plugin: HapiSwagger,
-        options: swaggerOptions
-      }
+        options: swaggerOptions,
+      },
     ];
     await server.register(plugins);
 
@@ -103,79 +108,78 @@ class Server {
       {
         method: 'POST',
         path: this.loginUserAction.ROUTE_PATH,
-        handler: this.loginUserAction.execute
+        handler: this.loginUserAction.execute,
       },
       {
         method: 'POST',
         path: this.createUserAction.ROUTE_PATH,
-        handler: this.createUserAction.execute
+        handler: this.createUserAction.execute,
       },
       {
         method: 'GET',
         path: this.getUsersAction.ROUTE_PATH,
-        handler: this.getUsersAction.execute
+        handler: this.getUsersAction.execute,
       },
       {
         method: 'PUT',
         path: this.updateUsersAction.ROUTE_PATH,
-        handler: this.updateUsersAction.execute
+        handler: this.updateUsersAction.execute,
       },
       {
         method: 'PUT',
         path: this.banUsersAction.ROUTE_PATH,
-        handler: this.banUsersAction.execute
+        handler: this.banUsersAction.execute,
       },
       {
         method: 'POST',
         path: this.createBetsAction.ROUTE_PATH,
-        handler: this.createBetsAction.execute
+        handler: this.createBetsAction.execute,
       },
       {
         method: 'PUT',
         path: this.updateBetsAction.ROUTE_PATH,
-        handler: this.updateBetsAction.execute
+        handler: this.updateBetsAction.execute,
       },
       {
         method: 'PUT',
         path: this.resultBetsAction.ROUTE_PATH,
-        handler: this.resultBetsAction.execute
+        handler: this.resultBetsAction.execute,
       },
       {
         method: 'GET',
         path: this.getBetsAction.ROUTE_PATH,
-        handler: this.getBetsAction.execute
+        handler: this.getBetsAction.execute,
       },
       {
         method: 'POST',
         path: this.placeBetsAction.ROUTE_PATH,
-        handler: this.placeBetsAction.execute
+        handler: this.placeBetsAction.execute,
       },
       {
         method: 'POST',
         path: this.depositAction.ROUTE_PATH,
-        handler: this.depositAction.execute
+        handler: this.depositAction.execute,
       },
       {
         method: 'POST',
         path: this.withdrawAction.ROUTE_PATH,
-        handler: this.withdrawAction.execute
+        handler: this.withdrawAction.execute,
       },
       {
         method: 'GET',
         path: this.getTransactionsAction.ROUTE_PATH,
-        handler: this.getTransactionsAction.execute
+        handler: this.getTransactionsAction.execute,
       },
       {
         method: 'GET',
         path: this.getUsersBalanceAction.ROUTE_PATH,
-        handler: this.getUsersBalanceAction.execute
+        handler: this.getUsersBalanceAction.execute,
       },
     ]);
 
     await server.start();
     console.log('Server running on %s', server.info.uri);
   };
-
 }
 
 export default new Server();

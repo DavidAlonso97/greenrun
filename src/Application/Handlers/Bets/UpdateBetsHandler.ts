@@ -6,9 +6,7 @@ import UpdateBetsCommand from '../../Commands/Bets/UpdateBetsCommand';
 
 @injectable()
 export default class UpdateBetsHandler {
-  public constructor(
-    @inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface
-  ) { }
+  public constructor(@inject(INTERFACES.BetRepositoryInterface) private betRepository: BetRepositoryInterface) {}
 
   public async execute(command: UpdateBetsCommand): Promise<void> {
     let bet = await this.betRepository.findOneByIdOrFail(command.getId());
