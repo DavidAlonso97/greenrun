@@ -25,15 +25,15 @@ import { loginUserSchema } from './Http/Validators/Schemas/Auth/LoginUserSchema'
 import { createBetsSchema } from './Http/Validators/Schemas/Bets/CreateBetsSchema';
 import { getBetsResultSchema, getBetsSchema } from './Http/Validators/Schemas/Bets/GetBetsSchema';
 import { placeBetsSchema } from './Http/Validators/Schemas/Bets/PlaceBetsAdapter';
-import { resultBetsSchema } from './Http/Validators/Schemas/Bets/ResultBetsSchema';
-import { updateBetsSchema } from './Http/Validators/Schemas/Bets/UpdateBetsSchema';
+import { resultBetsBodySchema, resultBetsParamsSchema } from './Http/Validators/Schemas/Bets/ResultBetsSchema';
+import { updateBetsSchemaBodyResult, updateBetsSchemaParamsResult } from './Http/Validators/Schemas/Bets/UpdateBetsSchema';
 import { depositSchema } from './Http/Validators/Schemas/Transactions/DepositSchema';
 import { getTransactionResultSchema, getTransactionSchema } from './Http/Validators/Schemas/Transactions/GetTransactionSchema';
 import { withdrawSchema } from './Http/Validators/Schemas/Transactions/WithdrawSchema';
 import { banUsersSchema } from './Http/Validators/Schemas/Users/BanUsersSchema';
 import { createUsersSchema, getUsersResultSchema } from './Http/Validators/Schemas/Users/CreateUsersSchema';
 import { getUsersSchema } from './Http/Validators/Schemas/Users/GetUsersSchema';
-import { updateUsersSchema } from './Http/Validators/Schemas/Users/UpdateUsersSchema';
+import { updateUsersBodyResultSchema, updateUsersParamsResultSchema } from './Http/Validators/Schemas/Users/UpdateUsersSchema';
 import DIContainer from './Infrastructure/DI/di.config';
 import { INTERFACES } from './Infrastructure/DI/Interfaces.types';
 
@@ -204,7 +204,10 @@ class Server {
               payloadType: 'json'
             }
           },
-          validate: { payload: updateUsersSchema }
+          validate: {
+            payload: updateUsersBodyResultSchema,
+            params: updateUsersParamsResultSchema
+          }
         }
       },
       {
@@ -271,7 +274,10 @@ class Server {
               payloadType: 'json'
             }
           },
-          validate: { payload: updateBetsSchema }
+          validate: {
+            payload: updateBetsSchemaBodyResult,
+            params: updateBetsSchemaParamsResult
+          }
         }
       },
       {
@@ -293,7 +299,10 @@ class Server {
               payloadType: 'json'
             }
           },
-          validate: { payload: resultBetsSchema }
+          validate: {
+            payload: resultBetsBodySchema,
+            params: resultBetsParamsSchema
+          }
         }
       },
       {
