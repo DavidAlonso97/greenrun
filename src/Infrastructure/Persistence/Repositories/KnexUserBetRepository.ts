@@ -7,7 +7,7 @@ import UserBetParamsInterface from '../../../Application/Commands/Interfaces/Use
 @injectable()
 export default class KnexUserBetRepository implements UserBetRepositoryInterface {
   private repository(): any {
-    return databaseConnection<UserBet>('user_bets').where('deleted', false );
+    return databaseConnection<UserBet>('user_bets').where('deleted', false);
   }
 
   public async findAll(): Promise<UserBet[]> {
