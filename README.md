@@ -18,5 +18,5 @@ Launch swagger editor and use either both files, the ```swagger.json``` or the `
 ## Test suite
 In order to exceute tests just run ```yarn run jest``` inside container.
 
-## Prettier ckeck
+## Prettier check
 In order to exceute prettier just run ```yarn run prettier:ckeck``` for a prettier check and ```yarn run prettier:run``` for file formating.
