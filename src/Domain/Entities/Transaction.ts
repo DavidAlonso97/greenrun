@@ -6,7 +6,7 @@ export default class Transaction {
   public category: string;
   public status: string;
   public email: string;
-  public user_bet_id: number|null;
+  public user_bet_id: number | null;
 
   public created_at: Date;
 
@@ -16,7 +16,7 @@ export default class Transaction {
 
   public deleted_at: Date | null;
 
-  constructor(user_id: number, amount: number, category: string, status: string, user_bet_id?: number|null) {
+  constructor(user_id: number, amount: number, category: string, status: string, user_bet_id?: number | null) {
     this.user_id = user_id;
     this.amount = amount;
     this.category = category;
