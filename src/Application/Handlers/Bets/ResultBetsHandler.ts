@@ -31,13 +31,13 @@ export default class ResultBetHandler {
     await this.betRepository.update(bet);
 
     const userBets = await this.userBetRepository.findBy({ bet_id: 1 });
-    for (let userBetIndex = 0; userBetIndex < userBets.length; userBetIndex++) {
+    for (let currentUserBet of userBets) {
       this.transactionService.generateTransaction(
-        userBets[userBetIndex].user_id,
-        userBets[userBetIndex].amount,
+        currentUserBet.user_id,
+        currentUserBet.amount,
         TRANSACCIONS_CATEGORIES.BET,
         TRANSACCIONS_STATUSES.COMPLETED,
-        userBets[userBetIndex].id,
+        currentUserBet.id,
       );
     }
   }
