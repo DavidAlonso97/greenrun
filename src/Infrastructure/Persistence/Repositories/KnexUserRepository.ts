@@ -3,6 +3,7 @@ import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/Use
 import User from '../../../Domain/Entities/User';
 import { injectable } from 'inversify';
 import databaseConnection from '../DatabaseConnection';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class KnexUserRepository implements UserRepositoryInterface {
@@ -20,7 +21,7 @@ export default class KnexUserRepository implements UserRepositoryInterface {
       return this.entityFromRawData(result);
     }
     throw Boom.boomify(new Error(`User with id ${id} not found`), {
-      statusCode: 404,
+      statusCode: HTTP_CODES.NOT_FOUND,
       data: `User with id ${id} not found`,
     });
   }

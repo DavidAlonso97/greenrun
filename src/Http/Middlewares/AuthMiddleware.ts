@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom';
 import * as jwt from 'jsonwebtoken';
 import { inject, injectable } from 'inversify';
 import { INTERFACES } from '../../Infrastructure/DI/Interfaces.types';
@@ -5,6 +6,7 @@ import { RedisConnectionInterface } from '../../Infrastructure/Persistence/Redis
 import UserRepositoryInterface from '../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import { Request } from '@hapi/hapi';
 import { AuthMiddlewareInterface } from './AuthMiddlewareInterface';
+import { HTTP_CODES } from '../Enums/HttpStatusCode';
 
 @injectable()
 export default class AuthMiddleware implements AuthMiddlewareInterface {
@@ -18,7 +20,10 @@ export default class AuthMiddleware implements AuthMiddlewareInterface {
     try {
       jwt.verify(token, process.env.JWT_SECRET);
     } catch {
-      throw new Error('Unauthorized');
+      throw Boom.boomify(new Error(`Unauthorized`), {
+        statusCode: HTTP_CODES.UNAUTHORIZED,
+        data: `Unauthorized`,
+      });
     }
     const user_id = await this.redisConection.getConnection().get(token);
     const user = await this.userRepository.findOneByIdOrFail(Number(user_id));

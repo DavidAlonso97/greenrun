@@ -6,6 +6,7 @@ import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/Use
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import bcrypt from 'bcrypt';
 import User from '../../../Domain/Entities/User';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class LoginUsersHandler {
@@ -16,7 +17,7 @@ export default class LoginUsersHandler {
 
     if (!user) {
       throw Boom.boomify(new Error(`User with username ${command.getUsername()} not found`), {
-        statusCode: 404,
+        statusCode: HTTP_CODES.NOT_FOUND,
         data: `User with username ${command.getUsername()} not found`,
       });
     }

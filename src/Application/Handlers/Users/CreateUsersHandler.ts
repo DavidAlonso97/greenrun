@@ -4,6 +4,7 @@ import User from '../../../Domain/Entities/User';
 import CreateUsersCommand from '../../Commands/Users/CreateUsersCommand';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class CreateUsersHandler {
@@ -12,19 +13,19 @@ export default class CreateUsersHandler {
   public async execute(command: CreateUsersCommand): Promise<void> {
     if (await this.userRepository.findOneBy('username', command.getUsername())) {
       throw Boom.boomify(new Error('Duplicated entity with same username: ' + command.getUsername()), {
-        statusCode: 409,
+        statusCode: HTTP_CODES.CONFLICT,
         data: 'Duplicated entity with same username: ' + command.getUsername(),
       });
     }
     if (await this.userRepository.findOneBy('email', command.getEmail())) {
       throw Boom.boomify(new Error('Duplicated entity  with same email: ' + command.getEmail()), {
-        statusCode: 409,
+        statusCode: HTTP_CODES.CONFLICT,
         data: 'Duplicated entity  with same email: ' + command.getEmail(),
       });
     }
     if (await this.userRepository.findOneBy('document_id', command.getDocumentId())) {
       throw Boom.boomify(new Error('Duplicated entity  with same document id: ' + command.getDocumentId()), {
-        statusCode: 409,
+        statusCode: HTTP_CODES.CONFLICT,
         data: 'Duplicated entity  with same document id: ' + command.getDocumentId(),
       });
     }

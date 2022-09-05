@@ -5,6 +5,8 @@ import { getUsersSchema } from '../../../Http/Validators/Schemas/Users/GetUsersS
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import GetUsersBalanceQuery from '../../../Application/Commands/Users/GetUsersBalanceQuery';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
+
 @injectable()
 export default class GetUsersBalanceAdapter {
   constructor(@inject(INTERFACES.ValidatorInterface) private validator: ValidatorInterface) {}
@@ -15,7 +17,7 @@ export default class GetUsersBalanceAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }

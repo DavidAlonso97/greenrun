@@ -6,6 +6,7 @@ import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import UpdateUsersCommand from '../../../Application/Commands/Users/UpdateUsersCommand';
 import { USER_ROLES } from '../../../Domain/Interfaces/UserRoles';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class UpdateUsersAdapter {
@@ -41,7 +42,7 @@ export default class UpdateUsersAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }

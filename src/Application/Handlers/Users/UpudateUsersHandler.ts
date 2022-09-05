@@ -4,6 +4,7 @@ import UpdateUsersCommand from '../../Commands/Users/UpdateUsersCommand';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import { USER_ROLES } from '../../../Domain/Interfaces/UserRoles';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class UpdateUsersHandler {
@@ -13,7 +14,7 @@ export default class UpdateUsersHandler {
     var user = await this.userRepository.findOneByIdOrFail(command.getId());
     if (command.isFromAdmin() && user.role === USER_ROLES.ADMIN) {
       throw Boom.boomify(new Error('Admins do not have permissions to edit others admins data'), {
-        statusCode: 409,
+        statusCode: HTTP_CODES.CONFLICT,
         data: 'Admins do not have permissions to edit others admins data',
       });
     }

@@ -5,6 +5,7 @@ import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import PlaceBetsCommand from '../../../Application/Commands/Bets/PlaceBetsCommand';
 import { placeBetsSchema } from '../../../Http/Validators/Schemas/Bets/PlaceBetsAdapter';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class PlaceBetsAdapter {
@@ -16,7 +17,7 @@ export default class PlaceBetsAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }

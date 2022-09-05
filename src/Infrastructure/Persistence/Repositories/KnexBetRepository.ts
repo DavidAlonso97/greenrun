@@ -4,11 +4,12 @@ import { injectable } from 'inversify';
 import databaseConnection from '../DatabaseConnection';
 import Bet from '../../../Domain/Entities/Bet';
 import BetParamsInterface from '../../../Application/Commands/Interfaces/BetParamsInterface';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class KnexBetRepository implements BetRepositoryInterface {
   private repository(): any {
-    return databaseConnection<Bet>('bets');
+    return databaseConnection<Bet>('bets').where('deleted', false);
   }
 
   public async findAll(): Promise<Bet[]> {
@@ -21,7 +22,7 @@ export default class KnexBetRepository implements BetRepositoryInterface {
       return result;
     }
     throw Boom.boomify(new Error(`Bet with id ${id} not found`), {
-      statusCode: 404,
+      statusCode: HTTP_CODES.NOT_FOUND,
       data: `Bet with id ${id} not found`,
     });
   }

@@ -5,6 +5,7 @@ import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import GetTransactionQuery from '../../../Application/Commands/Transactions/GetTransactionQuery';
 import { getTransactionSchema } from '../../../Http/Validators/Schemas/Transactions/GetTransactionSchema';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class GetTransactionAdapter {
@@ -17,7 +18,7 @@ export default class GetTransactionAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }

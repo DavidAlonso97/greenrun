@@ -8,6 +8,7 @@ import TransactionService from '../../../Application/Services/Transactions/Trans
 import { BET_STATUSES } from '../../../Domain/Interfaces/BetStatus';
 import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionCategories';
 import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class ResultBetHandler {
@@ -21,7 +22,7 @@ export default class ResultBetHandler {
     let bet = await this.betRepository.findOneByIdOrFail(command.getId());
     if (bet.status !== BET_STATUSES.ACTIVE) {
       throw Boom.boomify(new Error('Status is not active'), {
-        statusCode: 409,
+        statusCode: HTTP_CODES.CONFLICT,
         data: 'Status is not active',
       });
     }

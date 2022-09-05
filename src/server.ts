@@ -102,7 +102,7 @@ class Server {
     var authMiddleware = this.authMiddleware;
     var protectedRoutes = this.protectedRoutes;
     server.ext('onRequest', async function (request, h) {
-      if (protectedRoutes.getProtectedRoutes().includes(request.path)) {
+      if (!protectedRoutes.getPublicRoutues().includes(request.path)) {
         request = await authMiddleware.check(request);
       }
       return h.continue;

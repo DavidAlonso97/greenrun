@@ -5,6 +5,7 @@ import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import UpdateBetsCommand from '../../../Application/Commands/Bets/UpdateBetsCommand';
 import { updateBetsSchema } from '../../../Http/Validators/Schemas/Bets/UpdateBetsSchema';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class UpdateBetsAdapter {
@@ -24,7 +25,7 @@ export default class UpdateBetsAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }

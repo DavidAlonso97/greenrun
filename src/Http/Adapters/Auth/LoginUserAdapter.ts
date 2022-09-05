@@ -5,6 +5,7 @@ import { loginUserSchema } from '../../Validators/Schemas/Auth/LoginUserSchema';
 import LoginUsersCommand from '../../../Application/Commands/Auth/LoginUsersCommand';
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class LoginUsersAdapter {
@@ -15,7 +16,7 @@ export default class LoginUsersAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }

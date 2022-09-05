@@ -8,6 +8,7 @@ import { TRANSACCIONS_CATEGORIES } from '../../../Domain/Interfaces/TransactionC
 import { TRANSACCIONS_STATUSES } from '../../../Domain/Interfaces/TransactionStatus';
 import GetUsersBalanceQuery from '../../../Application/Commands/Users/GetUsersBalanceQuery';
 import GetUsersBalanceHandler from '../Users/GetUsersBalanceHandler';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class WithdrawHandler {
@@ -24,7 +25,7 @@ export default class WithdrawHandler {
 
     if (userAvailableMoney < command.getAmount()) {
       throw Boom.boomify(new Error('Not enought money available for withdraw that specific ammount'), {
-        statusCode: 409,
+        statusCode: HTTP_CODES.CONFLICT,
         data: 'Not enought money available for withdraw that specific ammount',
       });
     }

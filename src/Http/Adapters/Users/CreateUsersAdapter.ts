@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import ValidatorInterface from '../../../Http/Validators/ValidatorInterface';
 import { createUsersSchema } from '../../../Http/Validators/Schemas/Users/CreateUsersSchema';
+import { HTTP_CODES } from '../../../Http/Enums/HttpStatusCode';
 
 @injectable()
 export default class CreateUsersAdapter {
@@ -17,7 +18,7 @@ export default class CreateUsersAdapter {
 
     if (error) {
       throw Boom.boomify(error, {
-        statusCode: 412,
+        statusCode: HTTP_CODES.UNPROCESSABLE_ENTITY,
         data: error.details[0].message,
       });
     }
