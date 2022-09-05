@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { INTERFACES } from '../../../Infrastructure/DI/Interfaces.types';
 import UserRepositoryInterface from '../../../Domain/Interfaces/Repositories/UserRepositoryInterface';
@@ -21,18 +22,17 @@ export default class GetUsersBalanceHandler {
 
     const result = await this.transactionRepository.findBy(command.getParams());
     let balance = 0;
-    for (let transactionIndex = 0; transactionIndex < result.length; transactionIndex++) {
-      const transaction = result[transactionIndex];
-      let transactionAmount = transaction.amount;
-      if (transaction.status !== TRANSACCIONS_STATUSES.COMPLETED) {
+    for (let currentTransaction of result) {
+      let transactionAmount = currentTransaction.amount;
+      if (currentTransaction.status !== TRANSACCIONS_STATUSES.COMPLETED) {
         continue;
       }
-      if (transaction.category === TRANSACCIONS_CATEGORIES.WITHDRAW) {
+      if (currentTransaction.category === TRANSACCIONS_CATEGORIES.WITHDRAW) {
         balance -= transactionAmount;
         continue;
       }
-      if (transaction.category === TRANSACCIONS_CATEGORIES.BET) {
-        const userBet = await this.userBetRepository.findOneById(transaction.user_bet_id);
+      if (currentTransaction.category === TRANSACCIONS_CATEGORIES.BET) {
+        const userBet = await this.userBetRepository.findOneById(currentTransaction.user_bet_id);
         if (userBet.state === USER_BET_STATUSES.WON) {
           balance += userBet.odd * transactionAmount;
         } else {
@@ -41,8 +41,8 @@ export default class GetUsersBalanceHandler {
         continue;
       }
       if (
-        transaction.category === TRANSACCIONS_CATEGORIES.DEPOSIT ||
-        transaction.category === TRANSACCIONS_CATEGORIES.WINNING
+        currentTransaction.category === TRANSACCIONS_CATEGORIES.DEPOSIT ||
+        currentTransaction.category === TRANSACCIONS_CATEGORIES.WINNING
       ) {
         balance += transactionAmount;
       }

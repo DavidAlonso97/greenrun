@@ -57,6 +57,7 @@ import Validator from '../../Http/Validators/Validator';
 import { AuthMiddlewareInterface } from '../../Http/Middlewares/AuthMiddlewareInterface';
 import AuthMiddleware from '../../Http/Middlewares/AuthMiddleware';
 import ProtectedRoutes from '../../Http/Middlewares/ProtectedRoutes';
+import "reflect-metadata";
 
 const DIContainer = new Container();
 

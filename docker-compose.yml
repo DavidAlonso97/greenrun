@@ -15,6 +15,9 @@ services:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: greenrun
       USER: 1000
+    networks:
+      greenrun_network:
+        ipv4_address: 172.21.0.3
 
   app:
     build: .
@@ -28,12 +31,18 @@ services:
       - ./:/usr/app
       - ./node_modules:/usr/app/node_modules
     tty: true
+    networks:
+      greenrun_network:
+        ipv4_address: 172.21.0.5
 
   adminer:
     image: adminer
     container_name: adminer
     ports:
       - 8081:8081
+    networks:
+      greenrun_network:
+        ipv4_address: 172.21.0.4
 
   redis:
     image: redis
@@ -47,3 +56,13 @@ services:
     command:
       - redis-server
       - /usr/local/etc/redis/redis.conf
+    networks:
+      greenrun_network:
+        ipv4_address: 172.21.0.2
+
+networks:
+    greenrun_network:
+      ipam:
+        driver: default
+        config:
+          - subnet: 172.21.0.1/16

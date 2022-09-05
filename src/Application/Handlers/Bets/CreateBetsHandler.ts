@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { BET_STATUSES } from '../../../Domain/Interfaces/BetStatus';
 import Bet from '../../../Domain/Entities/Bet';

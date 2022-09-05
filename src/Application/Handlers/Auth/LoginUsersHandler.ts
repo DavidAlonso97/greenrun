@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import Boom from '@hapi/boom';
 import LoginUsersCommand from '../../Commands/Auth/LoginUsersCommand';
