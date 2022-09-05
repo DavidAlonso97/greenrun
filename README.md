@@ -14,3 +14,9 @@ This application was developed with docker and docker compose. In order to use t
 
 ## Swagger documentation
 Launch swagger editor and use either both files, the ```swagger.json``` or the ```swagger.yaml``` as you want
+
+## Test suite
+In order to exceute tests just run ```yarn run jest``` inside container.
+
+## Prettier ckeck
+In order to exceute prettier just run ```yarn run prettier:ckeck``` for a prettier check and ```yarn run prettier:run``` for file formating.
